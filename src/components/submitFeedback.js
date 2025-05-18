@@ -21,6 +21,6 @@ export const submitFeedback = (department, feedbackText) => {
     });
     // return new Promise((resolve) => {
     //     console.log(`✅ (mock) Feedback submitted to ${department}: ${feedbackText}`);
-    //     setTimeout(resolve, 500); // 模拟网络延迟
+    //     setTimeout(resolve, 500); //
     //   });
 };
