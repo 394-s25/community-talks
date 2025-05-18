@@ -65,23 +65,30 @@ export default function IssuePage() {
           ← Back to Home
         </button>
 
-        <h1 className="page-title">{readableName}</h1>
+        <h1 className="page-title">{readableName.replace(/\b\w/g, l => l.toUpperCase())}</h1>
 
-        {detailData?.description && (
-          <div className="section-box">
-            <p className="page-subtitle" style={{ textTransform: "uppercase", fontWeight: "bold" }}>
-              Duties & Responsibilities:
-            </p>
-            <div>
+
+        <div className="section-card">
+          <div className="section-header">
+            <span role="img" aria-label="clipboard">📋</span>
+            <h2 className="section-title-large">DUTIES & RESPONSIBILITIES</h2>
+
+          </div>
+          {detailData ? (
+            <div className="section-content">
               {detailData.description
-                .split(/(?<=\.)\s+/)
-                .filter(Boolean)
-                .map((para, idx) => (
-                  <p key={idx} style={{ marginBottom: "0.6em" }}>{para.trim()}</p>
+                .split(/\n+/)
+                .filter(p => p.trim() !== "")
+                .map((para, i) => (
+                  <p key={i} className="section-paragraph">{para.trim()}</p>
                 ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <p className="section-paragraph">Loading details...</p>
+          )}
+
+        </div>
+
 
         {/* {detailData?.members && (
           <div className="section-box">
@@ -112,6 +119,31 @@ export default function IssuePage() {
                   {m.role ? ` – ${m.role}` : ""} {m.term ? ` (${m.term})` : ""}
                 </li>
               ))}
+            </ul>
+          </div>
+        )}
+        {detailData?.staff && (
+          <div className="section-box">
+            <h2>👔 Staff</h2>
+            <ul className="staff-list">
+              {detailData.staff.map((staff, i) => {
+                // object
+                if (typeof staff === "object" && staff !== null) {
+                  return (
+                    <li key={i}>
+                      <strong>{staff.name}</strong>
+                      {staff.email && (
+                        <>
+                          {" – "}
+                          <a href={`mailto:${staff.email}`}>{staff.email}</a>
+                        </>
+                      )}
+                    </li>
+                  );
+                }
+                // string
+                return <li key={i}>{staff}</li>;
+              })}
             </ul>
           </div>
         )}
@@ -151,7 +183,7 @@ export default function IssuePage() {
 
         {detailData &&
           Object.entries(detailData).map(([key, value]) => {
-            if (["description",'lastUpdated', "members", 'meetings', "recordings", "meetingPlace", "meetingSchedule"].includes(key)) return null;
+            if (["description", "virtualMeeting", 'lastUpdated', "staff", "name", "members", 'meetings', "recordings", "meetingPlace", "meetingSchedule"].includes(key)) return null;
 
 
             if (Array.isArray(value)) {
@@ -205,27 +237,173 @@ export default function IssuePage() {
             onClose={() => setShowFeedback(false)}
           />
         )}
-              {detailData?.lastUpdated && (
-        <div style={{ fontSize: "0.9em", color: "#666", marginTop: "1em", paddingLeft: "0.5em" }}>
-          Last updated: {new Date(detailData.lastUpdated).toLocaleString()}
-        </div>
-      )}
+        {detailData?.lastUpdated && (
+          <div style={{ fontSize: "0.9em", color: "#666", marginTop: "1em", paddingLeft: "0.5em" }}>
+            Last updated: {new Date(detailData.lastUpdated).toLocaleString()}
+          </div>
+        )}
       </div>
 
 
 
       <div className="issue-right">
-        <div className="section-box">
-          <h2>📅 Upcoming Meetings</h2>
-          {/* <UpcomingMeetings meetings={meetings} /> */}
+        {(detailData?.meetingSchedule || detailData?.meetingPlace) && (
+          <div className="section-box">
+            <h2>📅 Upcoming Meetings</h2>
+            <div className="meeting-info-card">
+              {detailData.meetingSchedule && (
+                <p>
+                  <strong>🗓️ Schedule:</strong> {detailData.meetingSchedule}
+                </p>
+              )}
+              {detailData.meetingPlace && (
+                <p>
+                  <strong>📍 Location:</strong> {detailData.meetingPlace}
+                </p>
+              )}
+            </div>
+          </div>
+        )}
 
-          {detailData?.meetingSchedule && (
-            <p><strong>Schedule:</strong> {detailData.meetingSchedule}</p>
-          )}
-          {detailData?.meetingPlace && (
-            <p><strong>Location:</strong> {detailData.meetingPlace}</p>
-          )}
+
+        {detailData?.virtualMeeting && (
+          <div className="section-box">
+            <h2>🖥️ Virtual Meeting Access</h2>
+
+            {/* Public Comment Section */}
+            {detailData.virtualMeeting.publicComment && (
+              <div className="virtual-section">
+                <h3>📝 Public Comment</h3>
+                <div className="virtual-card">
+                  {Array.isArray(detailData.virtualMeeting.publicComment.methods) && (
+                    <p>
+                      <strong>How to Comment:</strong>{" "}
+                      {detailData.virtualMeeting.publicComment.methods.join(", ")}
+                    </p>
+                  )}
+                  {detailData.virtualMeeting.publicComment.signUpForm && (
+                    <p>
+                      <strong>Sign-Up Form:</strong>{" "}
+                      <a
+                        href={detailData.virtualMeeting.publicComment.signUpForm}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Submit via Form
+                      </a>
+                    </p>
+                  )}
+                  {detailData.virtualMeeting.publicComment.contact && (
+                    <p>
+                      <strong>Contact:</strong>{" "}
+                      <a href={`tel:${detailData.virtualMeeting.publicComment.contact}`}>
+                        {detailData.virtualMeeting.publicComment.contact}
+                      </a>
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Watch Options Section */}
+            {Array.isArray(detailData.virtualMeeting.watchOptions) &&
+              detailData.virtualMeeting.watchOptions.length > 0 && (
+                <div className="virtual-section">
+                  <h3>📺 How to Watch</h3>
+                  <div className="watch-grid">
+                    {detailData.virtualMeeting.watchOptions.map((opt, idx) => (
+                      <div key={idx} className="virtual-card">
+                        <p>
+                          <strong>{opt.platform}</strong>{" "}
+                          {opt.type && <span>({opt.type})</span>}
+                        </p>
+                        {opt.channel && (
+                          <p>
+                            <strong>Channel:</strong> {opt.channel}
+                          </p>
+                        )}
+                        {opt.instructions && (
+                          <p>
+                            <strong>Instructions:</strong>{" "}
+                            <em>{opt.instructions}</em>
+                          </p>
+                        )}
+                        {opt.url && (
+                          <p>
+                            <strong>Watch Online:</strong>{" "}
+                            <a
+                              href={opt.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {opt.url}
+                            </a>
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+          </div>
+        )}
+
+
+
+
+        {/* {detailData?.virtualMeeting && (
+  <div className="section-box">
+    <h2>🖥️ Virtual Meeting Access</h2>
+
+    {detailData.virtualMeeting.publicComment && (
+      <div className="virtual-subsection">
+        <h3>📝 Public Comment</h3>
+        <ul>
+          <li>
+            <strong>How to Comment:</strong>{" "}
+            {detailData.virtualMeeting.publicComment.methods?.join(", ")}
+          </li>
+          <li>
+            <strong>Sign-Up Form:</strong>{" "}
+            <a
+              href={detailData.virtualMeeting.publicComment.signUpForm}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Submit via Form
+            </a>
+          </li>
+          <li>
+            <strong>Contact:</strong> {detailData.virtualMeeting.publicComment.contact}
+          </li>
+        </ul>
+      </div>
+    )}
+
+    {Array.isArray(detailData.virtualMeeting.watchOptions) &&
+      detailData.virtualMeeting.watchOptions.length > 0 && (
+        <div className="virtual-subsection">
+          <h3>📺 How to Watch</h3>
+          <ul>
+            {detailData.virtualMeeting.watchOptions.map((opt, idx) => (
+              <li key={idx}>
+                <strong>{opt.platform}</strong> ({opt.type})<br />
+                {opt.url && (
+                  <a href={opt.url} target="_blank" rel="noopener noreferrer">
+                    {opt.url}
+                  </a>
+                )}
+                {opt.channel && <div>Channel: {opt.channel}</div>}
+                {opt.instructions && <div><em>{opt.instructions}</em></div>}
+              </li>
+            ))}
+          </ul>
         </div>
+    )}
+  </div>
+)} */}
+
+
 
         {detailData?.meetings && detailData.meetings.length > 0 && (
           <div className="section-box">
@@ -242,12 +420,12 @@ export default function IssuePage() {
                 let calendarUrl = "#";
                 const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
 
-                // ✅ 解析开始时间
+                // bagging
                 if (dateStr && rawStart) {
                   startDateTime = parse(`${dateStr} ${rawStart}`, "yyyy-MM-dd h:mm a", new Date());
 
                   if (isValid(startDateTime)) {
-                    // ✅ 如果提供了结束时间，解析它；否则默认一小时后
+                    // otherwise, default to 1 hour
                     if (rawEnd) {
                       endDateTime = parse(`${dateStr} ${rawEnd}`, "yyyy-MM-dd h:mm a", new Date());
                       if (!isValid(endDateTime)) {
@@ -257,7 +435,7 @@ export default function IssuePage() {
                       endDateTime = addHours(startDateTime, 1);
                     }
 
-                    // ✅ 构造 Google Calendar 链接
+                    // google calendar link
                     calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${format(startDateTime, "yyyyMMdd'T'HHmmss")}/${format(endDateTime, "yyyyMMdd'T'HHmmss")}&location=${encodeURIComponent(location)}`;
                   }
                 }
@@ -286,6 +464,16 @@ export default function IssuePage() {
             </ul>
           </div>
         )}
+
+        {detailData &&
+          !detailData.meetingSchedule &&
+          !detailData.meetingPlace &&
+          !detailData.virtualMeeting &&
+          (!detailData.meetings || detailData.meetings.length === 0) && (
+            <div style={{ color: "#909", fontStyle: "italic", padding: "9em" }}>
+              No meeting-related information available.
+            </div>
+          )}
 
       </div>
 
