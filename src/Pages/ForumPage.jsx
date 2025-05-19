@@ -4,9 +4,11 @@ import PageLoader from '../components/PageLoader';
 import PostCard from '../components/PostCard';
 import { ref, get, push, query, orderByChild, endBefore, limitToLast } from "firebase/database";
 import { db, auth } from "../firebase"; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import "../css/HomePage.css";
 import "../css/Issue.css";
-import { setISODay } from 'date-fns';
+
 
 const tempData = {
     "post1": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.",
@@ -19,11 +21,11 @@ const tempData = {
 }
 
 const tempDataPosts = [
-    {title: "post1", content: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.", tags: ["general"]},
-    {tags: ["general"], title: "post2", content: "Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere"},
-    {tags: ["resources"], title: "post3", content: "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "},
-    {tags: ["general", "resources"], title: "post4", content: "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "},
-    {tags: ["general"], title: "post5", content: "Iaculis massa nisl malesuada, Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "}
+    {title: "check out the new committee", content: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.", tags: ["general"]},
+    {tags: ["general"], title: "does anyone know which committee is in charge of zoning?", content: "Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere"},
+    {tags: ["resources"], title: "Here are some cool resources I found for Evanston Buisness Owners", content: "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "},
+    {tags: ["general", "resources"], title: "Looking to start a new committee", content: "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "},
+    {tags: ["general"], title: "Recently asked Public Safety Comm about the recent thefts. Here's what they said", content: "Iaculis massa nisl malesuada, Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "}
 ]
 
 
@@ -52,24 +54,25 @@ export default function ForumPage(){
         // });
 
         tempDataPosts.forEach((post) => {
-            addPost({titleInfo: post.title, contentInfo: post.content, tags: post.tags});
+            addPost({titleInfo: post.title, contentInfo: post.content, tagsArray: post.tags});
         });
     }
 
-    const addPost = ({titleInfo, contentInfo, user=null, tags}) => {
+    const addPost = ({titleInfo, contentInfo, user=null, tagsArray}) => {
         // tags is a list
         const data = {
             title: titleInfo,
             content: contentInfo,
             creator: user?user:"None",
-            tag: tags,
+            tags: tagsArray,
             timestamp: Date.now(),
         }
 
         // push this post
+        console.log(data);
         const postRef = push(ref(db, `${forumDbBaseRef}/posts`), data);
         // for each tag push this postRef (keeping track of all the posts under a common tag)
-        tags.forEach((tag) => {
+        tagsArray.forEach((tag) => {
             push(ref(db, `${forumDbBaseRef}/${tag}`), postRef.key);
         });
         console.log("finished pushing:", postRef.key);
@@ -141,12 +144,16 @@ export default function ForumPage(){
                 <div>
                     <PageLoader loading={isLoading}>
                         {currentPosts.map((post) => (
-                            <PostCard key={post.id} title={post.title} content={post.content}/>
+                            <PostCard key={post.id} title={post.title} content={post.content} tags={post.tags}/>
                         ))}
                     </PageLoader>
                     <div>
-                        <button className="page-number-button" disabled={currPage === 1} onClick={() => setCurrentPage(currPage - 1)}>Prev</button>
-                        <button className="page-number-button" onClick={() => setCurrentPage(currPage + 1)}>Next</button>
+                        <button className="page-number-button" disabled={currPage === 1} onClick={() => setCurrentPage(currPage - 1)}>
+                            <FontAwesomeIcon icon={faArrowLeft} size="1x"/>
+                        </button>
+                        <button className="page-number-button" onClick={() => setCurrentPage(currPage + 1)}>
+                            <FontAwesomeIcon icon={faArrowRight} size="1x"/>
+                        </button>
                     </div>
                 </div>
             </div>
