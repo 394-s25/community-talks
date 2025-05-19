@@ -4,5 +4,5 @@ dependecies you will need to install
 
 npm install firebase
 
-puppeteer used for static web scraping
-cherrio used for parsing DOM
+1. axios used for static web scraping
+2. cherrio used for parsing DOM
