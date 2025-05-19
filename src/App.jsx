@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./Pages/HomePage";
+import ForumPage from "./Pages/ForumPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import React from 'react';
@@ -23,6 +24,7 @@ function App(){
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/department/:category/:slug" element={<IssuePage />} />
+          <Route path="forum" element={<ForumPage />}/>
           <Route path="/profile" element={<ProtectedRoute> <ProfilePage /> </ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" />}/>
           <Route path="/function" element={<FunctionPage />} />

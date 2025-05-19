@@ -196,6 +196,7 @@ export default function HomePage() {
         <h1>Welcome to Community Talks</h1>
         <p>Your hub for engaging discussions</p>
         <button className="homepage-button" onClick={() => navigate("/profile")}>Go to Profile</button>
+        <button className="homepage-button" onClick={() => navigate("/forum")}>Go to Community Forum</button>
       </header>
 
       <main className="homepage-grid">

@@ -44,4 +44,33 @@
     cursor: pointer;
     color: #007bff;
   }
-  
+
+
+/* forum page styling */
+.forum-container{
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+
+.page-number-button{
+  width: 40px;
+  height: 40px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 0.115rem solid black; 
+  color: black;
+}
+
+.page-number-button.active {
+  font-weight: 900;
+  border-color: white;
+  background: #007bff;
+  color: white;
+}
