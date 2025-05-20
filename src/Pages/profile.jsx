@@ -20,6 +20,16 @@ const meetings = [
   },
 ];
 
+
+const allPreferences = [
+  "Virtual Comments",
+  "In-person Comments",
+  "Written Submissions",
+  "Video/Voice Recorded Comments",
+  "Community Surveys"
+];
+
+
 const initialInterests = [
   { label: "City Council's Administration and Public Works Committee" },
   { label: "City Housing Committee" },
@@ -48,6 +58,7 @@ export default function ProfilePage() {
   const [zipcode, setZipcode] = useState("");
   const [newZipcode, setNewZipcode] = useState("");
   const [interests, setInterests] = useState(initialInterests);
+  const [preferences, setPreferences] = useState([]);
 
   const navigate = useNavigate();
 
@@ -66,7 +77,8 @@ export default function ProfilePage() {
       await set(ref(db, `users/${user.uid}`), {
         email: user.email,
         zipcode: zipcode,
-        interests: updatedInterests
+        interests: updatedInterests,
+        preferences: preferences
       });
     }
   };
@@ -92,6 +104,7 @@ export default function ProfilePage() {
         if (snapshot.exists()) {
           setZipcode(snapshot.val().zipcode || "");
           setInterests(snapshot.val().interests || []);
+          setPreferences(snapshot.val().preferences || []);
         }
       }
     });
@@ -114,17 +127,35 @@ export default function ProfilePage() {
       await set(ref(db, `users/${user.uid}`), {
         email: user.email,
         zipcode: zip,
+        interests: interests,
+        preferences: preferences
       });
       setZipcode(zip);
       setNewZipcode("");
     }
   };
 
-  // const handleRemoveInterest = (label) => {
-  //   setInterests((prev) => prev.filter((item) => item.label !== label));
-  //   // Optional: persist to Firebase
-  // };
 
+
+  const togglePreference = (pref) => {
+    const updated = preferences.includes(pref)
+      ? preferences.filter(p => p !== pref)
+      : [...preferences, pref];
+    setPreferences(updated);
+  };
+
+  const handleSavePreferences = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      await set(ref(db, `users/${user.uid}`), {
+        email: user.email,
+        zipcode: zipcode,
+        interests: interests,
+        preferences: preferences
+      });
+      alert("✅ Preferences updated!");
+    }
+  };
   return (
     <div style={{ display: 'flex', flexDirection: "column", height: '100vh', margin: '1rem' }}>
       <button className="back-button" onClick={() => navigate("/")}>
@@ -180,12 +211,21 @@ export default function ProfilePage() {
 
         <div className="section-box" style={{ margin: "1rem" }}>
           <h3>Engagement Preferences:</h3>
-          <ul>
-            <li>Written submissions</li>
-            <li>Social media</li>
-            <li>Virtual Comments</li>
+          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            {allPreferences.map((pref) => (
+              <li key={pref}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={preferences.includes(pref)}
+                    onChange={() => togglePreference(pref)}
+                  />
+                  {" "}{pref}
+                </label>
+              </li>
+            ))}
           </ul>
-          <button>Update Preferences</button>
+          <button onClick={handleSavePreferences}>Update Preferences</button>
         </div>
       </div>
 
