@@ -8,7 +8,6 @@ export default function ProtectedRoute({ children }) {
   
   // If not logged in, redirect to login
   if (!currentUser) return <Navigate to="/login" />;
-  if (currentUser) return <Navigate to="/" />;  
   
   return children;
 }
