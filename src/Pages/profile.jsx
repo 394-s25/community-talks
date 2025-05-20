@@ -28,6 +28,21 @@ const initialInterests = [
   { label: "Zoning Committee" },
 ];
 
+
+
+const allInterestOptions = [
+  "Housing & Community Development",
+  "Environment",
+  "Public Safety",
+  "Business & Economic Development",
+  "Equity",
+  "Zoning & Infrastructure",
+  "Education & Youth",
+  "Budget & Finance",
+  "Human Services",
+  "Government & Democracy"
+];
+
 export default function ProfilePage() {
   const [email, setEmail] = useState("");
   const [zipcode, setZipcode] = useState("");
@@ -35,6 +50,38 @@ export default function ProfilePage() {
   const [interests, setInterests] = useState(initialInterests);
 
   const navigate = useNavigate();
+
+  // const handleAddInterest = (label) => {
+  //   if (!interests.find(item => item.label === label)) {
+  //     setInterests((prev) => [...prev, { label }]);
+  //     // Optional: persist to Firebase
+  //   }
+  // };
+
+
+
+  const updateInterestsInDB = async (updatedInterests) => {
+    const user = auth.currentUser;
+    if (user) {
+      await set(ref(db, `users/${user.uid}`), {
+        email: user.email,
+        zipcode: zipcode,
+        interests: updatedInterests
+      });
+    }
+  };
+  
+  const handleAddInterest = async (label) => {
+    const updated = [...interests, { label }];
+    setInterests(updated);
+    await updateInterestsInDB(updated);
+  };
+  
+  const handleRemoveInterest = async (label) => {
+    const updated = interests.filter(item => item.label !== label);
+    setInterests(updated);
+    await updateInterestsInDB(updated);
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -44,6 +91,7 @@ export default function ProfilePage() {
         const snapshot = await get(child(dbRef, `users/${user.uid}`));
         if (snapshot.exists()) {
           setZipcode(snapshot.val().zipcode || "");
+          setInterests(snapshot.val().interests || []);
         }
       }
     });
@@ -72,10 +120,10 @@ export default function ProfilePage() {
     }
   };
 
-  const handleRemoveInterest = (label) => {
-    setInterests((prev) => prev.filter((item) => item.label !== label));
-    // Optional: persist to Firebase
-  };
+  // const handleRemoveInterest = (label) => {
+  //   setInterests((prev) => prev.filter((item) => item.label !== label));
+  //   // Optional: persist to Firebase
+  // };
 
   return (
     <div style={{ display: 'flex', flexDirection: "column", height: '100vh', margin: '1rem' }}>
@@ -114,6 +162,19 @@ export default function ProfilePage() {
                 </button>
               </li>
             ))}
+          </ul>
+          <h3>Add More Interest Areas</h3>
+          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            {allInterestOptions
+              .filter(label => !interests.find(item => item.label === label))
+              .map(label => (
+                <li key={label} style={{ marginBottom: "0.5rem" }}>
+                  {label}
+                  <button onClick={() => handleAddInterest(label)} style={{ marginLeft: "10px" }}>
+                    Add
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
 
