@@ -20,6 +20,16 @@ const meetings = [
   },
 ];
 
+
+const allPreferences = [
+  "Virtual Comments",
+  "In-person Comments",
+  "Written Submissions",
+  "Video/Voice Recorded Comments",
+  "Community Surveys"
+];
+
+
 const initialInterests = [
   { label: "City Council's Administration and Public Works Committee" },
   { label: "City Housing Committee" },
@@ -28,13 +38,62 @@ const initialInterests = [
   { label: "Zoning Committee" },
 ];
 
+
+
+const allInterestOptions = [
+  "Housing & Community Development",
+  "Environment",
+  "Public Safety",
+  "Business & Economic Development",
+  "Equity",
+  "Zoning & Infrastructure",
+  "Education & Youth",
+  "Budget & Finance",
+  "Human Services",
+  "Government & Democracy"
+];
+
 export default function ProfilePage() {
   const [email, setEmail] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [newZipcode, setNewZipcode] = useState("");
   const [interests, setInterests] = useState(initialInterests);
+  const [preferences, setPreferences] = useState([]);
 
   const navigate = useNavigate();
+
+  // const handleAddInterest = (label) => {
+  //   if (!interests.find(item => item.label === label)) {
+  //     setInterests((prev) => [...prev, { label }]);
+  //     // Optional: persist to Firebase
+  //   }
+  // };
+
+
+
+  const updateInterestsInDB = async (updatedInterests) => {
+    const user = auth.currentUser;
+    if (user) {
+      await set(ref(db, `users/${user.uid}`), {
+        email: user.email,
+        zipcode: zipcode,
+        interests: updatedInterests,
+        preferences: preferences
+      });
+    }
+  };
+  
+  const handleAddInterest = async (label) => {
+    const updated = [...interests, { label }];
+    setInterests(updated);
+    await updateInterestsInDB(updated);
+  };
+  
+  const handleRemoveInterest = async (label) => {
+    const updated = interests.filter(item => item.label !== label);
+    setInterests(updated);
+    await updateInterestsInDB(updated);
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -44,6 +103,8 @@ export default function ProfilePage() {
         const snapshot = await get(child(dbRef, `users/${user.uid}`));
         if (snapshot.exists()) {
           setZipcode(snapshot.val().zipcode || "");
+          setInterests(snapshot.val().interests || []);
+          setPreferences(snapshot.val().preferences || []);
         }
       }
     });
@@ -66,17 +127,35 @@ export default function ProfilePage() {
       await set(ref(db, `users/${user.uid}`), {
         email: user.email,
         zipcode: zip,
+        interests: interests,
+        preferences: preferences
       });
       setZipcode(zip);
       setNewZipcode("");
     }
   };
 
-  const handleRemoveInterest = (label) => {
-    setInterests((prev) => prev.filter((item) => item.label !== label));
-    // Optional: persist to Firebase
+
+
+  const togglePreference = (pref) => {
+    const updated = preferences.includes(pref)
+      ? preferences.filter(p => p !== pref)
+      : [...preferences, pref];
+    setPreferences(updated);
   };
 
+  const handleSavePreferences = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      await set(ref(db, `users/${user.uid}`), {
+        email: user.email,
+        zipcode: zipcode,
+        interests: interests,
+        preferences: preferences
+      });
+      alert("✅ Preferences updated!");
+    }
+  };
   return (
     <div style={{ display: 'flex', flexDirection: "column", height: '100vh', margin: '1rem' }}>
       <button className="back-button" onClick={() => navigate("/")}>
@@ -115,16 +194,38 @@ export default function ProfilePage() {
               </li>
             ))}
           </ul>
+          <h3>Add More Interest Areas</h3>
+          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            {allInterestOptions
+              .filter(label => !interests.find(item => item.label === label))
+              .map(label => (
+                <li key={label} style={{ marginBottom: "0.5rem" }}>
+                  {label}
+                  <button onClick={() => handleAddInterest(label)} style={{ marginLeft: "10px" }}>
+                    Add
+                  </button>
+                </li>
+              ))}
+          </ul>
         </div>
 
         <div className="section-box" style={{ margin: "1rem" }}>
           <h3>Engagement Preferences:</h3>
-          <ul>
-            <li>Written submissions</li>
-            <li>Social media</li>
-            <li>Virtual Comments</li>
+          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            {allPreferences.map((pref) => (
+              <li key={pref}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={preferences.includes(pref)}
+                    onChange={() => togglePreference(pref)}
+                  />
+                  {" "}{pref}
+                </label>
+              </li>
+            ))}
           </ul>
-          <button>Update Preferences</button>
+          <button onClick={handleSavePreferences}>Update Preferences</button>
         </div>
       </div>
 
