@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UpcomingMeetings from '../components/UpcomingMeetings';
 import { auth, db } from "../firebase";
-import { ref, set, get, child } from "firebase/database";
+import { ref, set, get, child,update } from "firebase/database";
 import "../css/Issue.css";
 
 const meetings = [
@@ -59,6 +59,7 @@ export default function ProfilePage() {
   const [newZipcode, setNewZipcode] = useState("");
   const [interests, setInterests] = useState(initialInterests);
   const [preferences, setPreferences] = useState([]);
+  const [experience, setExperience] = useState("");
 
   const navigate = useNavigate();
 
@@ -74,11 +75,8 @@ export default function ProfilePage() {
   const updateInterestsInDB = async (updatedInterests) => {
     const user = auth.currentUser;
     if (user) {
-      await set(ref(db, `users/${user.uid}`), {
-        email: user.email,
-        zipcode: zipcode,
-        interests: updatedInterests,
-        preferences: preferences
+      await update(ref(db, `users/${user.uid}`), {
+        interests: updatedInterests
       });
     }
   };
@@ -105,6 +103,7 @@ export default function ProfilePage() {
           setZipcode(snapshot.val().zipcode || "");
           setInterests(snapshot.val().interests || []);
           setPreferences(snapshot.val().preferences || []);
+          setExperience(snapshot.val().experience || "");
         }
       }
     });
@@ -124,11 +123,8 @@ export default function ProfilePage() {
 
     const user = auth.currentUser;
     if (user) {
-      await set(ref(db, `users/${user.uid}`), {
-        email: user.email,
+      await update(ref(db, `users/${user.uid}`), {
         zipcode: zip,
-        interests: interests,
-        preferences: preferences
       });
       setZipcode(zip);
       setNewZipcode("");
@@ -147,15 +143,25 @@ export default function ProfilePage() {
   const handleSavePreferences = async () => {
     const user = auth.currentUser;
     if (user) {
-      await set(ref(db, `users/${user.uid}`), {
-        email: user.email,
-        zipcode: zipcode,
-        interests: interests,
-        preferences: preferences
+      await update(ref(db, `users/${user.uid}`), {
+        preferences: preferences,
       });
       alert("✅ Preferences updated!");
     }
   };
+
+  const handleSaveExperience = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      await update(ref(db, `users/${user.uid}`), {
+        experience: experience
+      });
+      alert("Experience saved!");
+    }
+  };
+  
+
+
   return (
     <div style={{ display: 'flex', flexDirection: "column", height: '100vh', margin: '1rem' }}>
       <button className="back-button" onClick={() => navigate("/")}>
@@ -227,6 +233,27 @@ export default function ProfilePage() {
           </ul>
           <button onClick={handleSavePreferences}>Update Preferences</button>
         </div>
+      </div>
+
+      <div className="section-box" style={{ margin: "1rem", width: "100%" }}>
+        <h3>Previous Public Decision Making Experiences</h3>
+        <textarea
+          placeholder="Gone to a meeting, ran for office, or submitted comment"
+          value={experience}
+          onChange={(e) => setExperience(e.target.value)}
+          style={{
+            width: "100%",
+            height: "100px",
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+            resize: "vertical",
+          }}
+        />
+        <button onClick={handleSaveExperience} style={{ marginTop: "10px" }}>
+          Save Experience
+        </button>
       </div>
 
       <div>
