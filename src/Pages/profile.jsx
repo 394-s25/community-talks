@@ -60,17 +60,13 @@ export default function ProfilePage() {
   const [interests, setInterests] = useState(initialInterests);
   const [preferences, setPreferences] = useState([]);
   const [experience, setExperience] = useState("");
+  
+  const [gender, setGender] = useState("");
+  const [race, setRace] = useState("");
+  const [homeowner, setHomeowner] = useState("");
+
 
   const navigate = useNavigate();
-
-  // const handleAddInterest = (label) => {
-  //   if (!interests.find(item => item.label === label)) {
-  //     setInterests((prev) => [...prev, { label }]);
-  //     // Optional: persist to Firebase
-  //   }
-  // };
-
-
 
   const updateInterestsInDB = async (updatedInterests) => {
     const user = auth.currentUser;
@@ -104,6 +100,9 @@ export default function ProfilePage() {
           setInterests(snapshot.val().interests || []);
           setPreferences(snapshot.val().preferences || []);
           setExperience(snapshot.val().experience || "");
+          setGender(snapshot.val().gender || "");
+          setRace(snapshot.val().race || "");
+          setHomeowner(snapshot.val().homeowner || "");
         }
       }
     });
@@ -160,7 +159,17 @@ export default function ProfilePage() {
     }
   };
   
-
+  const handleSaveDemographics = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      await update(ref(db, `users/${user.uid}`), {
+        gender,
+        race,
+        homeowner
+      });
+      alert("✅ Demographics saved");
+    }
+  };
 
   return (
     <div style={{ display: 'flex', flexDirection: "column", height: '100vh', margin: '1rem' }}>
@@ -255,7 +264,44 @@ export default function ProfilePage() {
           Save Experience
         </button>
       </div>
+      <div className="section-box" style={{ margin: "1rem" }}>
+        <h3>Demographic Information (Optional)</h3>
 
+        <label>Gender:</label>
+        <select value={gender} onChange={(e) => setGender(e.target.value)}>
+          <option value="">Select gender</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Non-binary">Non-binary</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label>Race:</label>
+        <select value={race} onChange={(e) => setRace(e.target.value)}>
+          <option value="">Select race</option>
+          <option value="Asian">Asian</option>
+          <option value="Black or African American">Black or African American</option>
+          <option value="Hispanic or Latino">Hispanic or Latino</option>
+          <option value="White">White</option>
+          <option value="Native American or Alaska Native">Native American or Alaska Native</option>
+          <option value="Native Hawaiian or Pacific Islander">Native Hawaiian or Pacific Islander</option>
+          <option value="Two or More Races">Two or More Races</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+        </select>
+
+        <label>Homeownership Status:</label>
+        <select value={homeowner} onChange={(e) => setHomeowner(e.target.value)}>
+          <option value="">Select status</option>
+          <option value="Homeowner">Homeowner</option>
+          <option value="Renter">Renter</option>
+          <option value="Living with family/friends">Living with family/friends</option>
+          <option value="Unhoused">Unhoused</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+        </select>
+
+        <button onClick={handleSaveDemographics}>Save Demographics</button>
+      </div>
       <div>
         <UpcomingMeetings meetings={meetings} />
       </div>
