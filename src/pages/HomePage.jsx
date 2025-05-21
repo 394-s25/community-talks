@@ -86,6 +86,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { ref, get } from "firebase/database";
+import NavBar from "../components/Navbar";
 import "../css/HomePage.css";
 
 export default function HomePage() {
@@ -195,8 +196,7 @@ export default function HomePage() {
       <header className="homepage-header">
         <h1>Welcome to Community Talks</h1>
         <p>Your hub for engaging discussions</p>
-        <button className="homepage-button" onClick={() => navigate("/profile")}>Go to Profile</button>
-        <button className="homepage-button" onClick={() => navigate("/forum")}>Go to Community Forum</button>
+        <NavBar/>
       </header>
 
       <main className="homepage-grid">

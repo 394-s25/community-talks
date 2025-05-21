@@ -2,38 +2,21 @@ import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import PageLoader from '../components/PageLoader';
 import PostCard from '../components/PostCard';
+import NavBar from '../components/Navbar';
+import ForumPostModal from "../components/ForumPostModal";
 import { ref, get, push, query, orderByChild, endBefore, limitToLast } from "firebase/database";
 import { db, auth } from "../firebase"; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faArrowLeft, faComment } from '@fortawesome/free-solid-svg-icons';
 import "../css/HomePage.css";
 import "../css/Issue.css";
-
-
-const tempData = {
-    "post1": "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.",
-    "post2": "Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere",
-    "post1/comment1": "Comment 1 for Post 1: Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. ",
-    "post1/comment2": "Comment 2 for Post 1: Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. ",
-    "post3": "Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere",
-    "post4": "Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere",
-    "post5": "Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere",
-}
-
-const tempDataPosts = [
-    {title: "check out the new committee", content: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.", tags: ["general"]},
-    {tags: ["general"], title: "does anyone know which committee is in charge of zoning?", content: "Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere"},
-    {tags: ["resources"], title: "Here are some cool resources I found for Evanston Buisness Owners", content: "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "},
-    {tags: ["general", "resources"], title: "Looking to start a new committee", content: "Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "},
-    {tags: ["general"], title: "Recently asked Public Safety Comm about the recent thefts. Here's what they said", content: "Iaculis massa nisl malesuada, Pulvinar vivamus fringilla lacus nec metus bibendum egestas. "}
-]
 
 
 
 export default function ForumPage(){
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
-    const [once, isOnce] = useState(true);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const forumDbBaseRef = "forum_posts";
     const [currPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(2);
@@ -47,19 +30,9 @@ export default function ForumPage(){
     // const currPosts = tempDataPosts;
 
 
-    const addPosts = () => {
-        // a temp function for testing and populating
-        // Object.entries(tempDataPosts).map(([key, val]) => {
-        //     console.log(key, val);
-        // });
-
-        tempDataPosts.forEach((post) => {
-            addPost({titleInfo: post.title, contentInfo: post.content, tagsArray: post.tags});
-        });
-    }
-
     const addPost = ({titleInfo, contentInfo, user=null, tagsArray}) => {
         // tags is a list
+        console.log(titleInfo, contentInfo, user,tagsArray )
         const data = {
             title: titleInfo,
             content: contentInfo,
@@ -129,34 +102,54 @@ export default function ForumPage(){
         fetchNextPage();
     },[currPage]);
 
+    useEffect(() => {
+        const toggle = isModalOpen ? "hidden" : "auto";
+        document.body.style.overflow = toggle;
+    }, [isModalOpen]);
+
     return (
         <div className='homepage-container'>
             <header className="homepage-header">
-                <button className="back-button" onClick={() => navigate("/")}>
+                <button className="back-button" onClick={() => navigate("/")} style={{display:"flex",left:0}}>
                     ← Back to Home
                 </button>
                 <h1>Community Forum</h1>
                 <p>Your hub for engaging discussions</p>
-                <button className="homepage-button" onClick={() => navigate("/profile")}>Go to Profile</button>
-                <button className="homepage-button" onClick={() => navigate("/forum")}>Go to Community Forum</button>
+                <NavBar/>
             </header>
             <div className='forum-container'>
-                <div>
+                <div style={{display:"flex", justifyContent:"flex-end"}}>
+                    <button onClick={() => setIsModalOpen(true)} className='add-cmt' style={{display:"flex", gap:"0.6rem", background:"none"}}>
+                        <FontAwesomeIcon icon={faComment} fontSize={"1.5rem"} color="#007bff"/>
+                        <p>Make a Post</p>
+                    </button>
+                </div>
+                <div className="forum-content">
                     <PageLoader loading={isLoading}>
-                        {currentPosts.map((post) => (
-                            <PostCard key={post.id} title={post.title} content={post.content} tags={post.tags}/>
+                        {currentPosts.length === 0 
+                            ? <div style={{display:"flex", alignItems:"center", justifyContent:"center", margin: "auto 0"}}><h2>No Posts Available</h2></div> 
+                            :currentPosts.map((post) => (
+                            <PostCard key={post.id} post={post}/>
                         ))}
                     </PageLoader>
-                    <div>
-                        <button className="page-number-button" disabled={currPage === 1} onClick={() => setCurrentPage(currPage - 1)}>
-                            <FontAwesomeIcon icon={faArrowLeft} size="1x"/>
-                        </button>
-                        <button className="page-number-button" onClick={() => setCurrentPage(currPage + 1)}>
-                            <FontAwesomeIcon icon={faArrowRight} size="1x"/>
-                        </button>
                     </div>
+                <div style={{display:"flex", justifyContent:"flex-end"}}>
+                    <button className="page-number-button" disabled={currPage === 1} onClick={() => setCurrentPage(currPage - 1)}>
+                        <FontAwesomeIcon icon={faArrowLeft} size="1x"/>
+                    </button>
+                    <button className="page-number-button" onClick={() => setCurrentPage(currPage + 1)}>
+                        <FontAwesomeIcon icon={faArrowRight} size="1x"/>
+                    </button>
                 </div>
             </div>
+        
+            <ForumPostModal 
+                isPost={true}
+                addPost={addPost}
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}/>
+            {/* isPost, addPost, isOpen, onClose */}
+
         </div>
     )
 }
