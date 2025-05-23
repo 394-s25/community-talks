@@ -11,4 +11,5 @@ dependecies you will need to install
 8. npm install --save @fortawesome/free-brand-svg-icons
 9. npm install axios (axios used for static web scraping)
 10. npm install react-select
-11. cherrio used for parsing DOM
+11. npm install react-bootstrap bootstrap
+12. cherrio used for parsing DOM
