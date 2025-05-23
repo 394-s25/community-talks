@@ -1,47 +1,63 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { db } from "../firebase";
+import { ref, get } from "firebase/database";
 import { useAuth } from "../contexts/AuthContext";
 import "../css/HomePage.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const [issueAreas, setIssueAreas] = useState([]);
 
-  const issueAreas = [
-    {
-      title: "Housing",
-      entities: [
-        "City Housing Comm",
-        "Land Use Comm.",
-        "Coalition to End Homelessness"
-      ]
-    },
-    {
-      title: "Public Safety",
-      entities: [
-        "Police Review Comm",
-        "Public Safety Civil Service Comm",
-        "Emergency Telephone Comm"
-      ]
-    },
-    {
-      title: "Environment",
-      entities: [
-        "Environment Board",
-        "Healthy Buildings Comm.",
-        "Preservation Comm."
-      ]
-    },
-    {
-      title: "Government",
-      entities: [
-        "City Council's Administration and Public Works Committee"
-      ]
-    }
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      const snapshot = await get(ref(db, "Community"));
+      const data = snapshot.val();
 
-  const handleEntityClick = (entity) => {
-    navigate(`/department/${encodeURIComponent(entity)}`);
+      if (data) {
+        const priority = [
+          "Standing Committees of the Council",
+          "Special Committees of the Council"
+        ];
+
+        const structured = [];
+
+        for (const key of priority) {
+          if (data[key]) {
+            structured.push({
+              title: key,
+              entities: Object.entries(data[key]).map(([slug, item]) => ({
+                name: item.name,
+                slug: item.slug || slug
+              }))
+            });
+          }
+        }
+
+        for (const [category, items] of Object.entries(data)) {
+          if (!priority.includes(category)) {
+            structured.push({
+              title: category,
+              entities: Object.entries(items).map(([slug, item]) => ({
+                name: item.name,
+                slug: item.slug || slug
+              }))
+            });
+          }
+        }
+
+        setIssueAreas(structured);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleEntityClick = (category, slug) => {
+    const encodedCategory = encodeURIComponent(category);
+    const encodedSlug = encodeURIComponent(slug);
+    navigate(`/department/${encodedCategory}/${encodedSlug}`);
   };
 
   const handleLogout = async () => {
@@ -58,7 +74,6 @@ export default function HomePage() {
       <header className="homepage-header">
         <h1>Welcome to Community Talks</h1>
         <p>Your hub for engaging discussions</p>
-
         <div className="homepage-button-group">
           <button
             className="homepage-button"
@@ -80,13 +95,13 @@ export default function HomePage() {
           <div key={area.title} className="homepage-column">
             <h2 className="homepage-column-header">{area.title}</h2>
             <ul className="homepage-list">
-              {area.entities.map((ent) => (
+              {area.entities.map(({ slug, name }) => (
                 <li
-                  key={ent}
+                  key={slug}
                   className="homepage-list-item"
-                  onClick={() => handleEntityClick(ent)}
+                  onClick={() => handleEntityClick(area.title, slug)}
                 >
-                  {ent}
+                  {name}
                 </li>
               ))}
             </ul>

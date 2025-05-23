@@ -1,4 +1,3 @@
-
 .issue-page {
   display: flex;
   height: 100vh;
@@ -22,6 +21,175 @@
   overflow-y: auto;
 }
 
+.meeting-list {
+  list-style: none;
+  padding: 0;
+}
+
+.meeting-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background-color: #fafafa;
+}
+
+.meeting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.meeting-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.meeting-buttons a {
+  margin-left: 0.5em;
+  text-decoration: none;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border-radius: 5px;
+}
+
+.btn.btn-map {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn.btn-calendar {
+  background-color: #28a745;
+  color: white;
+}
+
+
+.section-card {
+  background: #fff;
+  padding: 1.5em 2em;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.8em;
+  border-left: 4px solid #3B82F6;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin-bottom: 1em;
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: none;
+  margin: 0;
+}
+
+.section-content {
+  color: #374151;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.section-paragraph {
+  margin-bottom: 0.8em;
+}
+
+.section-title-large {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #1f2937;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.8em;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+
+
+
+.virtual-subsection {
+  margin-bottom: 1.5em;
+  padding-left: 0.5em;
+}
+
+.virtual-subsection h3 {
+  font-size: 1.05rem;
+  margin-bottom: 0.6em;
+  color: #333;
+}
+
+.virtual-subsection ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.virtual-subsection li {
+  margin-bottom: 0.8em;
+  line-height: 1.6;
+}
+
+.virtual-subsection a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.virtual-subsection a:hover {
+  text-decoration: underline;
+}
+
+.virtual-section {
+  margin-bottom: 1.5em;
+}
+
+.watch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.virtual-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.virtual-card p {
+  margin: 0.3em 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.meeting-info-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  line-height: 1.6;
+}
+
+.meeting-info-card p {
+  margin: 0.5em 0;
+  font-size: 0.95rem;
+  color: #333;
+}
+
 
 .back-button {
   background-color: transparent;
@@ -36,7 +204,7 @@
   text-decoration: underline;
 }
 
-button{
+button {
   border-radius: 20px;
   border: none;
 }
@@ -124,7 +292,8 @@ ul li {
 .video-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 */
+  padding-top: 56.25%;
+  /* 16:9 */
   border-radius: 6px;
   overflow: hidden;
 }

@@ -11,6 +11,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import IssuePage from './pages/issue';
 import ProfilePage from './pages/profile';
+import FunctionPage from './Pages/FunctionPage'; // <-- 来自 origin/main
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
@@ -26,6 +27,7 @@ function App() {
           {/* Public routes */}
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/function" element={<FunctionPage />} />
 
           {/* Protected route */}
           <Route
@@ -37,8 +39,8 @@ function App() {
             }
           />
 
-          {/* Other public route */}
-          <Route path="/department/:deptId" element={<IssuePage />} />
+          {/* Dynamic department route with category + slug */}
+          <Route path="/department/:category/:slug" element={<IssuePage />} />
 
           {/* Fallback route */}
           <Route path="*" element={<Navigate to="/home" replace />} />

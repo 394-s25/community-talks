@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import UpcomingMeetings from '../components/UpcomingMeetings';
 import { auth, db } from "../firebase";
-import { ref, set, get, child } from "firebase/database";
+import { ref, set, get, child,update } from "firebase/database";
 import "../css/Issue.css";
 
 const meetings = [
@@ -20,6 +20,16 @@ const meetings = [
   },
 ];
 
+
+const allPreferences = [
+  "Virtual Comments",
+  "In-person Comments",
+  "Written Submissions",
+  "Video/Voice Recorded Comments",
+  "Community Surveys"
+];
+
+
 const initialInterests = [
   { label: "City Council's Administration and Public Works Committee" },
   { label: "City Housing Committee" },
@@ -28,13 +38,57 @@ const initialInterests = [
   { label: "Zoning Committee" },
 ];
 
+
+
+const allInterestOptions = [
+  "Housing & Community Development",
+  "Environment",
+  "Public Safety",
+  "Business & Economic Development",
+  "Equity",
+  "Zoning & Infrastructure",
+  "Education & Youth",
+  "Budget & Finance",
+  "Human Services",
+  "Government & Democracy"
+];
+
 export default function ProfilePage() {
   const [email, setEmail] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [newZipcode, setNewZipcode] = useState("");
   const [interests, setInterests] = useState(initialInterests);
+  const [preferences, setPreferences] = useState([]);
+  const [experience, setExperience] = useState("");
+  
+  const [gender, setGender] = useState("");
+  const [race, setRace] = useState("");
+  const [homeowner, setHomeowner] = useState("");
+  const [isEvanstonResident, setIsEvanstonResident] = useState("");
+
 
   const navigate = useNavigate();
+
+  const updateInterestsInDB = async (updatedInterests) => {
+    const user = auth.currentUser;
+    if (user) {
+      await update(ref(db, `users/${user.uid}`), {
+        interests: updatedInterests
+      });
+    }
+  };
+  
+  const handleAddInterest = async (label) => {
+    const updated = [...interests, { label }];
+    setInterests(updated);
+    await updateInterestsInDB(updated);
+  };
+  
+  const handleRemoveInterest = async (label) => {
+    const updated = interests.filter(item => item.label !== label);
+    setInterests(updated);
+    await updateInterestsInDB(updated);
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -44,6 +98,13 @@ export default function ProfilePage() {
         const snapshot = await get(child(dbRef, `users/${user.uid}`));
         if (snapshot.exists()) {
           setZipcode(snapshot.val().zipcode || "");
+          setInterests(snapshot.val().interests || []);
+          setPreferences(snapshot.val().preferences || []);
+          setExperience(snapshot.val().experience || "");
+          setGender(snapshot.val().gender || "");
+          setRace(snapshot.val().race || "");
+          setHomeowner(snapshot.val().homeowner || "");
+          setIsEvanstonResident(snapshot.val().isEvanstonResident || "");
         }
       }
     });
@@ -63,8 +124,7 @@ export default function ProfilePage() {
 
     const user = auth.currentUser;
     if (user) {
-      await set(ref(db, `users/${user.uid}`), {
-        email: user.email,
+      await update(ref(db, `users/${user.uid}`), {
         zipcode: zip,
       });
       setZipcode(zip);
@@ -72,9 +132,51 @@ export default function ProfilePage() {
     }
   };
 
-  const handleRemoveInterest = (label) => {
-    setInterests((prev) => prev.filter((item) => item.label !== label));
-    // Optional: persist to Firebase
+
+
+  const togglePreference = (pref) => {
+    const updated = preferences.includes(pref)
+      ? preferences.filter(p => p !== pref)
+      : [...preferences, pref];
+    setPreferences(updated);
+  };
+
+  const handleSavePreferences = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      await update(ref(db, `users/${user.uid}`), {
+        preferences: preferences,
+      });
+      alert("✅ Preferences updated!");
+    }
+  };
+
+  const handleSaveExperience = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      await update(ref(db, `users/${user.uid}`), {
+        experience: experience
+      });
+      alert("Experience saved!");
+    }
+  };
+  
+  const handleSaveDemographics = async () => {
+    const user = auth.currentUser;
+    if (!isEvanstonResident) {
+      alert("❌ Please confirm whether you are an Evanston resident.");
+      return;
+    }
+    
+    if (user) {
+      await update(ref(db, `users/${user.uid}`), {
+        gender,
+        race,
+        homeowner,
+        isEvanstonResident
+      });
+      alert("✅ Demographics saved");
+    }
   };
 
   return (
@@ -115,19 +217,108 @@ export default function ProfilePage() {
               </li>
             ))}
           </ul>
+          <h3>Add More Interest Areas</h3>
+          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            {allInterestOptions
+              .filter(label => !interests.find(item => item.label === label))
+              .map(label => (
+                <li key={label} style={{ marginBottom: "0.5rem" }}>
+                  {label}
+                  <button onClick={() => handleAddInterest(label)} style={{ marginLeft: "10px" }}>
+                    Add
+                  </button>
+                </li>
+              ))}
+          </ul>
         </div>
 
         <div className="section-box" style={{ margin: "1rem" }}>
           <h3>Engagement Preferences:</h3>
-          <ul>
-            <li>Written submissions</li>
-            <li>Social media</li>
-            <li>Virtual Comments</li>
+          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+            {allPreferences.map((pref) => (
+              <li key={pref}>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={preferences.includes(pref)}
+                    onChange={() => togglePreference(pref)}
+                  />
+                  {" "}{pref}
+                </label>
+              </li>
+            ))}
           </ul>
-          <button>Update Preferences</button>
+          <button onClick={handleSavePreferences}>Update Preferences</button>
         </div>
       </div>
 
+      <div className="section-box" style={{ margin: "1rem", width: "100%" }}>
+        <h3>Previous Public Decision Making Experiences</h3>
+        <textarea
+          placeholder="Gone to a meeting, ran for office, or submitted comment"
+          value={experience}
+          onChange={(e) => setExperience(e.target.value)}
+          style={{
+            width: "100%",
+            height: "100px",
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1px solid #ccc",
+            fontSize: "1rem",
+            resize: "vertical",
+          }}
+        />
+        <button onClick={handleSaveExperience} style={{ marginTop: "10px" }}>
+          Save Experience
+        </button>
+      </div>
+      <div className="section-box" style={{ margin: "1rem" }}>
+        <h3>Demographic Information (Optional)</h3>
+
+        <label>Gender:</label>
+        <select value={gender} onChange={(e) => setGender(e.target.value)}>
+          <option value="">Select gender</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Non-binary">Non-binary</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label>Race:</label>
+        <select value={race} onChange={(e) => setRace(e.target.value)}>
+          <option value="">Select race</option>
+          <option value="Asian">Asian</option>
+          <option value="Black or African American">Black or African American</option>
+          <option value="Hispanic or Latino">Hispanic or Latino</option>
+          <option value="White">White</option>
+          <option value="Native American or Alaska Native">Native American or Alaska Native</option>
+          <option value="Native Hawaiian or Pacific Islander">Native Hawaiian or Pacific Islander</option>
+          <option value="Two or More Races">Two or More Races</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+        </select>
+        <label><strong>Are you an Evanston resident? (Required)</strong></label>
+        <select
+          value={isEvanstonResident}
+          onChange={(e) => setIsEvanstonResident(e.target.value)}
+          required>
+          <option value="">Select an option</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+
+        <label>Homeownership Status:</label>
+        <select value={homeowner} onChange={(e) => setHomeowner(e.target.value)}>
+          <option value="">Select status</option>
+          <option value="Homeowner">Homeowner</option>
+          <option value="Renter">Renter</option>
+          <option value="Living with family/friends">Living with family/friends</option>
+          <option value="Unhoused">Unhoused</option>
+          <option value="Prefer not to say">Prefer not to say</option>
+        </select>
+
+        <button onClick={handleSaveDemographics}>Save Demographics</button>
+      </div>
       <div>
         <UpcomingMeetings meetings={meetings} />
       </div>
