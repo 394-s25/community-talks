@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { ref, get } from "firebase/database";
+import NavBar from "../components/Navbar";
 import { useAuth } from "../contexts/AuthContext";
 import "../css/HomePage.css";
 
@@ -74,6 +75,9 @@ export default function HomePage() {
       <header className="homepage-header">
         <h1>Welcome to Community Talks</h1>
         <p>Your hub for engaging discussions</p>
+
+        <NavBar/>
+
         <div className="homepage-button-group">
           <button
             className="homepage-button"
@@ -88,6 +92,7 @@ export default function HomePage() {
             Sign Out
           </button>
         </div>
+
       </header>
 
       <main className="homepage-grid">
