@@ -47,7 +47,7 @@ export default function HomePage() {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate("/login");
+      navigate("/home");
     } catch (err) {
       console.error("Logout failed:", err.message);
     }

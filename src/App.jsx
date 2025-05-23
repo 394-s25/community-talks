@@ -20,17 +20,14 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          {/* 🔁 Redirect root to /login */}
-          <Route path="/" element={<Navigate to="/login" replace />} />
+          {/* Root → redirect to home */}
+          <Route path="/" element={<Navigate to="/home" replace />} />
 
-          {/* Login page */}
+          {/* Public routes */}
+          <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Home page (after login) */}
-          <Route path="/home" element={<HomePage />} />
-
-          {/* Other routes */}
-          <Route path="/department/:deptId" element={<IssuePage />} />
+          {/* Protected route */}
           <Route
             path="/profile"
             element={
@@ -40,8 +37,11 @@ function App() {
             }
           />
 
-          {/* Catch-all */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          {/* Other public route */}
+          <Route path="/department/:deptId" element={<IssuePage />} />
+
+          {/* Fallback route */}
+          <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </Router>
     </AuthProvider>

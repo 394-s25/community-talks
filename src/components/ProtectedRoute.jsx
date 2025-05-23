@@ -7,9 +7,9 @@ export default function ProtectedRoute({ children }) {
 
   if (loading) return <div>Loading...</div>;
 
-  // Not logged in → redirect to login
-  if (!currentUser) return <Navigate to="/login" />;
+  // If not logged in, redirect to /login
+  if (!currentUser) return <Navigate to="/login" replace />;
 
-  // Logged in → allow access
+  // If logged in, render protected content
   return children;
 }
