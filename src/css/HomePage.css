@@ -44,4 +44,16 @@
     cursor: pointer;
     color: #007bff;
   }
+  .homepage-button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .homepage-button.logout {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
   
