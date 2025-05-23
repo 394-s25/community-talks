@@ -3,27 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
 import { ref, get } from "firebase/database";
 import NavBar from "../components/Navbar";
+import { useAuth } from "../contexts/AuthContext";
 import "../css/HomePage.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const [issueAreas, setIssueAreas] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
       const snapshot = await get(ref(db, "Community"));
       const data = snapshot.val();
-  
+
       if (data) {
         const priority = [
           "Standing Committees of the Council",
           "Special Committees of the Council"
         ];
-  
+
         const structured = [];
-  
-        // 
+
         for (const key of priority) {
           if (data[key]) {
             structured.push({
@@ -35,8 +35,7 @@ export default function HomePage() {
             });
           }
         }
-  
-        // 
+
         for (const [category, items] of Object.entries(data)) {
           if (!priority.includes(category)) {
             structured.push({
@@ -48,17 +47,13 @@ export default function HomePage() {
             });
           }
         }
-  
+
         setIssueAreas(structured);
       }
     };
-  
+
     fetchData();
   }, []);
-  
-
-  //   fetchData();
-  // }, []);
 
   const handleEntityClick = (category, slug) => {
     const encodedCategory = encodeURIComponent(category);
@@ -66,12 +61,38 @@ export default function HomePage() {
     navigate(`/department/${encodedCategory}/${encodedSlug}`);
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/home");
+    } catch (err) {
+      console.error("Logout failed:", err.message);
+    }
+  };
+
   return (
     <div className="homepage-container">
       <header className="homepage-header">
         <h1>Welcome to Community Talks</h1>
         <p>Your hub for engaging discussions</p>
+
         <NavBar/>
+
+        <div className="homepage-button-group">
+          <button
+            className="homepage-button"
+            onClick={() => navigate("/profile")}
+          >
+            Go to Profile
+          </button>
+          <button
+            className="homepage-button logout"
+            onClick={handleLogout}
+          >
+            Sign Out
+          </button>
+        </div>
+
       </header>
 
       <main className="homepage-grid">

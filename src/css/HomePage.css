@@ -46,6 +46,7 @@
   }
 
 
+
 /* forum page styling */
 .forum-container{
   display: flex;
@@ -174,3 +175,18 @@
     height: 550px;
   }
 }
+
+  .homepage-button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+  }
+  
+  .homepage-button.logout {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+  
+
