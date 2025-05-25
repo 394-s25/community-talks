@@ -1,9 +1,10 @@
 // src/Pages/FunctionPage.jsx
 import React from "react";
-import { uploadCommunityDataset } from "../utils/uploadCommunityData";
+import { uploadCommunityDataset } from "../utils/uploadCommunityData_old";
 import { uploadSpecialCommitteeDetails } from "../utils/uploadSpecialCommitteeDetails";
 import { addSlugsToCommunity } from "../utils/addSlugsToCommunity";
 import { uploadStandingCommitteeDetails } from "../utils/uploadStandingCommittees";
+import { uploadCommunityDataset_new } from "../utils/uploadCommunityData";
 
 
 export default function FunctionPage() {
@@ -26,6 +27,9 @@ export default function FunctionPage() {
         Upload Standing Committee Details
       </button>
       
+      <button onClick={uploadCommunityDataset_new}>Upload email Community Dataset</button>
+
+
     </div>
   );
 }
