@@ -64,7 +64,6 @@ export default function ProfilePage() {
   const [gender, setGender] = useState("");
   const [race, setRace] = useState("");
   const [homeowner, setHomeowner] = useState("");
-  const [isEvanstonResident, setIsEvanstonResident] = useState("");
 
 
   const navigate = useNavigate();
@@ -104,7 +103,6 @@ export default function ProfilePage() {
           setGender(snapshot.val().gender || "");
           setRace(snapshot.val().race || "");
           setHomeowner(snapshot.val().homeowner || "");
-          setIsEvanstonResident(snapshot.val().isEvanstonResident || "");
         }
       }
     });
@@ -163,17 +161,12 @@ export default function ProfilePage() {
   
   const handleSaveDemographics = async () => {
     const user = auth.currentUser;
-    if (!isEvanstonResident) {
-      alert("❌ Please confirm whether you are an Evanston resident.");
-      return;
-    }
-    
+
     if (user) {
       await update(ref(db, `users/${user.uid}`), {
         gender,
         race,
-        homeowner,
-        isEvanstonResident
+        homeowner
       });
       alert("✅ Demographics saved");
     }
@@ -297,23 +290,11 @@ export default function ProfilePage() {
           <option value="Two or More Races">Two or More Races</option>
           <option value="Prefer not to say">Prefer not to say</option>
         </select>
-        <label><strong>Are you an Evanston resident? (Required)</strong></label>
-        <select
-          value={isEvanstonResident}
-          onChange={(e) => setIsEvanstonResident(e.target.value)}
-          required>
-          <option value="">Select an option</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-
         <label>Homeownership Status:</label>
         <select value={homeowner} onChange={(e) => setHomeowner(e.target.value)}>
           <option value="">Select status</option>
           <option value="Homeowner">Homeowner</option>
           <option value="Renter">Renter</option>
-          <option value="Living with family/friends">Living with family/friends</option>
-          <option value="Unhoused">Unhoused</option>
           <option value="Prefer not to say">Prefer not to say</option>
         </select>
 
