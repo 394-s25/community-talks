@@ -32,8 +32,8 @@ function App() {
 
           <Route path="/department/:category/:slug" element={<IssuePage />} />
           <Route path="forum" element={<ForumPage />}/>
-          <Route path="/profile" element={<ProtectedRoute> <ProfilePage /> </ProtectedRoute>} />
-          <Route path="*" element={<Navigate to="/" />}/>
+          {/* <Route path="/profile" element={<ProtectedRoute> <ProfilePage /> </ProtectedRoute>} /> */}
+          {/* <Route path="*" element={<Navigate to="/" />}/> */}
 
           <Route path="/function" element={<FunctionPage />} />
 
@@ -48,7 +48,7 @@ function App() {
           />
 
           {/* Dynamic department route with category + slug */}
-          <Route path="/department/:category/:slug" element={<IssuePage />} />
+          {/* <Route path="/department/:category/:slug" element={<IssuePage />} /> */}
 
           {/* Fallback route */}
           <Route path="*" element={<Navigate to="/home" replace />} />
