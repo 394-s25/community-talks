@@ -80,14 +80,6 @@
   margin-bottom: 1em;
 }
 
-.section-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #111827;
-  text-transform: none;
-  margin: 0;
-}
-
 .section-content {
   color: #374151;
   font-size: 1rem;
@@ -112,11 +104,19 @@
   font-size: 1.1rem;
   font-weight: 700;
   text-transform: uppercase;
+  margin: 0;
   margin-bottom: 0.8em;
   color: #333;
   letter-spacing: 0.5px;
 }
 
+/* .section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: none;
+  margin: 0;
+} */
 
 
 

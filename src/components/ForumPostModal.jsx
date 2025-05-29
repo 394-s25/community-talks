@@ -30,7 +30,7 @@ export default function ForumPostModal({isPost, addPost, isOpen, onClose}){
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            addPost({titleInfo: title, contentInfo: message, user: auth.currentUser.uid, tagsArray:tags});
+            addPost({titleInfo: title, contentInfo: message, user: auth?.currentUser.uid, tagsArray:tags});
             console.log("Posted");
             // clear all data
             setTitle("");
