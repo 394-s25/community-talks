@@ -16,7 +16,6 @@ export default function PostCard({post, onPage, onFullPage=false}){
                             : {textOverflow:"ellipsis", overflow:"hidden", display:"-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient:"vertical"};
 
     const openCard = () => {
-        console.log("[nav to: ","/forum/posts/" + post.id,"]Open Card Modal for this forum post:", post.title);
         navigate("/forum/posts/" + post.id, {state: 
                                                 { post: post, onPage: onPage}});
     }
@@ -55,7 +54,7 @@ export default function PostCard({post, onPage, onFullPage=false}){
                 <p>{convertTimestamp(post.timestamp)}</p>
             </div>
             <div className="section-header">
-                <h2 className="section-title-large">{post.title}</h2>
+                <h2 className="section-title-large mg-btm-0">{post.title}</h2>
             </div>
             <div className="section-content">
                 <div>

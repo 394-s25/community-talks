@@ -158,11 +158,6 @@ export default function ForumPostPage(){
                         ))}
                         </PageLoader>
 
-                        {/* {commentData.length === 0 ? <h2>No Comments</h2>
-                        : buildCommentTree().map((comment) => <CommentCard key={comment.id} comment={comment} addComment={addComment}/>)} */}
-
-                        {/* {commentData.length === 0 ? <h2>No Comments</h2>
-                        : commentData.map((comment) => <CommentCard key={comment.id} comment={comment}/>)} */}
                     </div>
                 </div>        
         { showTopBanner && 

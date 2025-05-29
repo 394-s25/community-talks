@@ -41,7 +41,7 @@ export default function ForumPage(){
 
     const addPost = ({titleInfo, contentInfo, user=null, tagsArray}) => {
         // tags is a list
-        console.log(titleInfo, contentInfo, user,tagsArray )
+        // console.log(titleInfo, contentInfo, user,tagsArray )
         const data = {
             title: titleInfo,
             content: contentInfo,
@@ -52,13 +52,13 @@ export default function ForumPage(){
         }
 
         // push this post
-        console.log(data);
+        // console.log(data);
         const postRef = push(ref(db, `${forumDbBaseRef}/posts`), data);
         // for each tag push this postRef (keeping track of all the posts under a common tag)
         tagsArray.forEach((tag) => {
             push(ref(db, `${forumDbBaseRef}/${tag}`), postRef.key);
         });
-        console.log("finished pushing:", postRef.key);
+        // console.log("finished pushing:", postRef.key);
     }
 
     
@@ -121,7 +121,7 @@ export default function ForumPage(){
                     .map(([key, val]) => ({id:key, ...val}))
                     .sort((a,b) => b.timestamp - a.timestamp);
 
-                console.log(results);
+                // console.log(results);
                 setCurrPosts(results);
                 setPrevPostTimestamp(results[results.length - 1]?.timestamp);
             } else {

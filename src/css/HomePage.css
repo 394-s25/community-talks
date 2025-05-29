@@ -84,6 +84,10 @@
   color: #3c9aff !important;
 }
 
+.mg-btm-0{
+  margin-bottom: 0 !important;
+}
+
 /* forum page styling */
 .forum-container{
   display: flex;
