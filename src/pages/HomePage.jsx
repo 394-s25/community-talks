@@ -9,7 +9,7 @@ import "../css/HomePage.css";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout } = useAuth?.() || {};
   const [issueAreas, setIssueAreas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
