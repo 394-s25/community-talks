@@ -58,11 +58,44 @@ export default function HomePage() {
     setIsLoading(false);
   }, []);
 
-  const handleEntityClick = (category, slug) => {
+  const handleEntityClick = async (category, slug) => {
     const encodedCategory = encodeURIComponent(category);
     const encodedSlug = encodeURIComponent(slug);
-    navigate(`/department/${encodedCategory}/${encodedSlug}`);
+
+    try {
+      const detailRef = ref(db, `detail/${category}/${slug}`);
+      const snapshot = await get(detailRef);
+      const detailData = snapshot.val();
+
+      if (detailData) {
+        // 
+        navigate(`/department/${encodedCategory}/${encodedSlug}`);
+      } else {
+        // 
+        const communityRef = ref(db, `Community/${category}`);
+        const communitySnap = await get(communityRef);
+        const communityEntries = communitySnap.val();
+
+        if (communityEntries) {
+          const entry = Object.values(communityEntries).find(
+            (item) => item.slug === slug || item.name === slug
+          );
+
+          if (entry?.link) {
+            window.open(entry.link, "_blank");
+          } else {
+            alert("No detailed page or link available.");
+          }
+        } else {
+          alert("No community data found.");
+        }
+      }
+    } catch (err) {
+      console.error("Error checking detail data:", err);
+      alert("Failed to open the committee details.");
+    }
   };
+
 
   const handleLogout = async () => {
     try {
@@ -81,8 +114,6 @@ export default function HomePage() {
         <header className="homepage-header">
           <h1>Welcome to Community Talks</h1>
           <p>Your hub for engaging discussions</p>
-
-          
 
           {/* <div className="homepage-button-group">
             <button

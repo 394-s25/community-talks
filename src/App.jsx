@@ -26,15 +26,16 @@ function App() {
         <Routes>
           {/* Root → redirect to home */}
           <Route path="/" element={<Navigate to="/home" replace />} />
+          <Route path="*" element={<Navigate to="/" />}/>
 
           {/* Public routes */}
           <Route path="/home" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
 
           <Route path="/department/:category/:slug" element={<IssuePage />} />
+
           <Route path="/forum" element={<ForumPage />}/>
-          <Route path="/profile" element={<ProtectedRoute> <ProfilePage /> </ProtectedRoute>} />
-          <Route path="*" element={<Navigate to="/" />}/>
+
 
           <Route path="/function" element={<FunctionPage />} />
 
@@ -49,7 +50,7 @@ function App() {
           />
 
           {/* Dynamic department route with category + slug */}
-          <Route path="/department/:category/:slug" element={<IssuePage />} />
+          {/* <Route path="/department/:category/:slug" element={<IssuePage />} /> */}
           <Route path="/forum/posts/:postId" element={<ForumPostPage />}/>
 
           {/* Fallback route */}
