@@ -12,6 +12,7 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import IssuePage from './pages/issue';
 import ForumPage from "./Pages/ForumPage";
+import ForumPostPage from './Pages/ForumPostPage';
 import ProfilePage from './pages/profile';
 import FunctionPage from './Pages/FunctionPage'; // <-- 来自 origin/main
 
@@ -31,7 +32,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
 
           <Route path="/department/:category/:slug" element={<IssuePage />} />
-          <Route path="forum" element={<ForumPage />}/>
+          <Route path="/forum" element={<ForumPage />}/>
           <Route path="/profile" element={<ProtectedRoute> <ProfilePage /> </ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" />}/>
 
@@ -49,6 +50,7 @@ function App() {
 
           {/* Dynamic department route with category + slug */}
           <Route path="/department/:category/:slug" element={<IssuePage />} />
+          <Route path="/forum/posts/:postId" element={<ForumPostPage />}/>
 
           {/* Fallback route */}
           <Route path="*" element={<Navigate to="/home" replace />} />
