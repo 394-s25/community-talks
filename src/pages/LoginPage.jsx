@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../css/login.css";
 
@@ -18,6 +18,7 @@ class LoginPageSequence {
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation(); // added
   const { login, signup, loginWithGoogle } = useAuth();
 
   const [currPage, setCurrPage] = useState(LoginPageSequence.LOGIN);
@@ -50,7 +51,10 @@ export default function LoginPage() {
       } else {
         await signup(email, password);
       }
-      navigate("/home");
+
+      const from = location.state?.from || "/home"; // added
+      navigate(from, { replace: true }); // modified
+
     } catch (err) {
       console.error("Auth error:", err.message);
       setError(err.message);
