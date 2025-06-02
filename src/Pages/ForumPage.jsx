@@ -16,7 +16,7 @@ import "../css/Issue.css";
 
 
 
-export default function ForumPage(){
+export default function ForumPagefun(){
     const navigate = useNavigate();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
