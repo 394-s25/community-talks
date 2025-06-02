@@ -11,10 +11,10 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import IssuePage from './pages/issue';
-import ForumPage from "./Pages/ForumPage";
-import ForumPostPage from './Pages/ForumPostPage';
-import ProfilePage from './Pages/profile';
-import FunctionPage from './Pages/FunctionPage'; 
+import ForumPage from "./pages/ForumPage";
+import ForumPostPage from './pages/ForumPostPage';
+import ProfilePage from './pages/profile';
+import FunctionPage from './pages/FunctionPage'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
