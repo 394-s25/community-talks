@@ -13,8 +13,8 @@ import HomePage from './pages/HomePage';
 import IssuePage from './pages/issue';
 import ForumPage from "./Pages/ForumPage";
 import ForumPostPage from './Pages/ForumPostPage';
-import ProfilePage from './pages/profile';
-import FunctionPage from './Pages/FunctionPage'; // <-- 来自 origin/main
+import ProfilePage from './Pages/profile';
+import FunctionPage from './Pages/FunctionPage'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
