@@ -5,24 +5,31 @@ import "@testing-library/jest-dom";
 import ForumPage from '../Pages/ForumPage';
 
 
-it('math is easy', ({ expect }) => {
-    expect(2 + 2).toBe(4)
-})
+// it('math is easy', ({ expect }) => {
+//     expect(2 + 2).toBe(4)
+// })
 
-// describe("ForumPage", () => {
-//     // beforeEach(() => {
-//     //     vi.clearAllMocks();
-//     // });
+// set the logout context
+vi.mock('./contexts/AuthContext', () => ({
+  useAuth: () => ({
+    logout: vi.fn(), // empty mock function for logout
+  }),
+}));
 
-//     test("renders page header", async () => {
-//         render(
-//             <MemoryRouter>
-//                 <ForumPage/>
-//             </MemoryRouter>
-//         );
+describe("ForumPage", () => {
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
 
-//         await waitFor(() => {
-//             expect(screen.findByText("Community Forum").toBeInTheDocument());
-//         });
-//     });
-// });
+    test("renders page header", async () => {
+        render(
+            <MemoryRouter>
+                <ForumPage/>
+            </MemoryRouter>
+        );
+
+        await waitFor(() => {
+            expect(screen.findByText("Community Forum").toBeInTheDocument());
+        });
+    });
+});
