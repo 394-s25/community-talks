@@ -1,11 +1,11 @@
 // HomePage.test.jsx
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import HomePage from './pages/HomePage';
-import '@testing-library/jest-dom';
+import HomePage from '../pages/HomePage';
+// import '@testing-library/jest-dom';
 
 import { MemoryRouter } from 'react-router-dom';
-// import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 // import * as firebaseDb from 'firebase/database';
 vi.mock('./contexts/AuthContext', () => ({
   useAuth: () => ({

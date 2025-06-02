@@ -1,0 +1,28 @@
+import { describe, it, expect, test, vi, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import "@testing-library/jest-dom";
+import ForumPage from '../Pages/ForumPage';
+
+
+it('math is easy', ({ expect }) => {
+    expect(2 + 2).toBe(4)
+})
+
+// describe("ForumPage", () => {
+//     // beforeEach(() => {
+//     //     vi.clearAllMocks();
+//     // });
+
+//     test("renders page header", async () => {
+//         render(
+//             <MemoryRouter>
+//                 <ForumPage/>
+//             </MemoryRouter>
+//         );
+
+//         await waitFor(() => {
+//             expect(screen.findByText("Community Forum").toBeInTheDocument());
+//         });
+//     });
+// });

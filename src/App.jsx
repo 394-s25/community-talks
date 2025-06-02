@@ -26,7 +26,6 @@ function App() {
         <Routes>
           {/* Root → redirect to home */}
           <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="*" element={<Navigate to="/" />}/>
 
           {/* Public routes */}
           <Route path="/home" element={<HomePage />} />
@@ -55,6 +54,7 @@ function App() {
 
           {/* Fallback route */}
           <Route path="*" element={<Navigate to="/home" replace />} />
+          
         </Routes>
       </Router>
     </AuthProvider>
