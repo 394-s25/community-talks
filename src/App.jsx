@@ -8,13 +8,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import IssuePage from './pages/issue';
-import ForumPage from "./pages/ForumPage";
-import ForumPostPage from './pages/ForumPostPage';
-import ProfilePage from './pages/profile';
-import FunctionPage from "./pages/FunctionPage";
+import LoginPage from './Pages/LoginPage';
+import HomePage from './Pages/HomePage';
+import IssuePage from './Pages/issue';
+import ForumPage from "./Pages/ForumPage";
+import ForumPostPage from './Pages/ForumPostPage';
+import ProfilePage from './Pages/profile';
+import FunctionPage from "./Pages/FunctionPage";
 // import FunctionPage from './Pages/FunctionPage'; // <-- 来自 origin/main
 
 import 'bootstrap/dist/css/bootstrap.min.css';
