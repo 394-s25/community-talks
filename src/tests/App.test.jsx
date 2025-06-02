@@ -1,6 +1,7 @@
 // HomePage.test.jsx
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
+import { AuthProvider } from '../contexts/AuthContext';
 import HomePage from '../Pages/HomePage';
 // import '@testing-library/jest-dom';
 
@@ -37,18 +38,22 @@ describe('HomePage component', () => {
 
   test('renders welcome message', () => {
     render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>
+      <AuthProvider>
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      </AuthProvider>
     );
     expect(screen.getByText('Welcome to Community Talks')).toBeInTheDocument();
   });
 
   test('displays committee from firebase data', async () => {
     render(
-      <MemoryRouter>
-        <HomePage />
-      </MemoryRouter>
+      <AuthProvider>
+        <MemoryRouter>
+          <HomePage />
+        </MemoryRouter>
+      </AuthProvider>
     );
 
     await waitFor(() =>
