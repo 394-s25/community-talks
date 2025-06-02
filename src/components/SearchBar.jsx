@@ -51,11 +51,11 @@ export default function SearchBar({data, onSearch, isForum}){
                     id="project-search" 
                     name="query" 
                     className="form-control"
-                    placeholder="Search projects"
-                    aria-label="Search through project content"
+                    placeholder="Search posts"
+                    aria-label="Search through forum posts"
                     onChange={handleSearchChange} />
             </div>
-            <button type="button" onClick={handleSearch} className="btn btn-primary" data-mdb-ripple-init>
+            <button type="button" onClick={handleSearch} className="btn btn-primary" style={{marginLeft:"-10px"}} data-mdb-ripple-init>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
         </div>

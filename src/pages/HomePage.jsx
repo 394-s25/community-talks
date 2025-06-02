@@ -51,11 +51,12 @@ export default function HomePage() {
         }
 
         setIssueAreas(structured);
+        setIsLoading(false);
       }
     };
 
     fetchData();
-    setIsLoading(false);
+    // setIsLoading(false);
   }, []);
 
   const handleEntityClick = async (category, slug) => {
