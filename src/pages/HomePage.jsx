@@ -6,6 +6,49 @@ import { useAuth } from "../contexts/AuthContext";
 import NavBar from "../components/Navbar";
 import PageLoader from "../components/PageLoader";
 import "../css/HomePage.css";
+import {
+  FaUsers,
+  FaCogs,
+  FaUniversity,
+  FaChartBar,
+  FaLeaf,
+  FaBalanceScale,
+  FaSchool,
+  FaBusinessTime,
+  FaBuilding,
+  FaHandsHelping,
+  FaGavel,
+  FaHandshake,
+  FaShieldAlt,
+  FaLandmark,
+  FaHouseUser,
+  FaVoteYea,
+  FaPeopleArrows,
+  FaRegLightbulb
+} from "react-icons/fa";
+
+
+
+
+const getIconForTitle = (title) => {
+  const titleLower = title.toLowerCase();
+
+  if (titleLower.includes("equity")) return <FaPeopleArrows className="column-icon icon-equity" />;
+  if (titleLower.includes("government") || titleLower.includes("democracy")) return <FaVoteYea className="column-icon icon-government" />;
+  if (titleLower.includes("housing")) return <FaHouseUser className="column-icon icon-housing" />;
+  if (titleLower.includes("public safety")) return <FaShieldAlt className="column-icon icon-safety" />;
+  if (titleLower.includes("human services")) return <FaHandsHelping className="column-icon icon-services" />;
+  if (titleLower.includes("zoning") || titleLower.includes("infrastructure")) return <FaLandmark className="column-icon icon-zoning" />;
+  if (titleLower.includes("development")) return <FaBusinessTime className="column-icon icon-development" />;
+  if (titleLower.includes("environment")) return <FaLeaf className="column-icon icon-environment" />;
+  if (titleLower.includes("education") || titleLower.includes("youth")) return <FaSchool className="column-icon icon-education" />;
+  if (titleLower.includes("ethics") || titleLower.includes("legal")) return <FaBalanceScale className="column-icon icon-ethics" />;
+  if (titleLower.includes("rules") || titleLower.includes("committee")) return <FaGavel className="column-icon icon-default" />;
+
+  return <FaRegLightbulb className="column-icon icon-default" />; // fallback icon
+};
+
+
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -109,8 +152,8 @@ export default function HomePage() {
 
   return (
     <div>
-      <NavBar/>
-    
+      <NavBar />
+
       <div className="homepage-container">
         <header className="homepage-header">
           <h1>Welcome to Community Talks</h1>
@@ -137,7 +180,12 @@ export default function HomePage() {
           <main className="homepage-grid">
             {issueAreas.map((area) => (
               <div key={area.title} className="homepage-column">
-                <h2 className="homepage-column-header">{area.title}</h2>
+                {/* <h2 className="homepage-column-header">{area.title}</h2>
+                 */}
+                <h2 className="homepage-column-header">
+                  {getIconForTitle(area.title)} {area.title}
+                </h2>
+
                 <ul className="homepage-list">
                   {area.entities.map(({ slug, name }) => (
                     <li
