@@ -160,7 +160,7 @@ export default function HomePage() {
   return (
 
     <div>
-      <NavBar />
+      
 
       <div className="homepage-container">
 
@@ -168,7 +168,7 @@ export default function HomePage() {
 
 
         <div className="homepage-layout">
-
+      
           <SidebarNav
             sections={issueAreas}
             getIconForTitle={getIconForTitle}
@@ -188,6 +188,7 @@ export default function HomePage() {
 
 
           <main className="homepage-main">
+            <NavBar />
             <header className="homepage-header">
               <h1>Welcome to Community Talks</h1>
               <p>Your hub for engaging discussions</p>
