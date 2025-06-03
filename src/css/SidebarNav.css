@@ -1,7 +1,7 @@
 /* ---------- sidebar container ---------- */
 .sidebar-nav {
     position: fixed;
-    top: 64px;
+    top: 24px;
     left: 0;
     width: 240px;
     height: calc(100vh - 64px);
@@ -10,6 +10,15 @@
     background-color: #f9fafb;
     border-right: 1px solid #e5e7eb;
     z-index: 1000;
+}
+
+.sidebar-top-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    cursor: pointer;
 }
 
 /* Link inside sidebar */
