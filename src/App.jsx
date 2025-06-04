@@ -12,7 +12,7 @@ import HomePage from './pages/HomePage.jsx';
 import IssuePage from './pages/issue.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import ProfilePage from './pages/profile.jsx';
-// import FunctionPage from './Pages/FunctionPage'; // <-- 来自 origin/main
+// import FunctionPage from './Pages/FunctionPage'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
