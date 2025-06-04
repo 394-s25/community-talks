@@ -1,8 +1,8 @@
 // HomePage.test.jsx
-import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
-import HomePage from '../Pages/HomePage';
 import '@testing-library/jest-dom';
+import { render, screen, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import HomePage from '../pages/HomePage';
 
 import { MemoryRouter } from 'react-router-dom';
 // import { useAuth } from '../contexts/AuthContext';
