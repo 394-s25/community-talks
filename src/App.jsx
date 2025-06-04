@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import NavBar from './components/Navbar.jsx';
-import LoginPage from './Pages/LoginPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 import HomePage from './Pages/HomePage';
 import IssuePage from './Pages/issue';
 import ForumPage from "./Pages/ForumPage";
