@@ -255,6 +255,19 @@ src/css/HomePage.css .homepage-container {
   color: white;
 }
 
+.homepage-button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.homepage-button.logout {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
 @media (min-width: 320px) {
   .forum-content {
     height: 615px;
@@ -268,16 +281,14 @@ src/css/HomePage.css .homepage-container {
 }
 
 @media (min-width: 641px) {
-  .post-card-container h2 {
-    font-size: 21px;
+  .post-card-container h2{
+    font-size: 20px;
   }
-
-  .post-card-container p {
-    font-size: 16px;
-  }
-
-  .tag-button {
+  .post-card-container p{
     font-size: 14px;
+  }
+  .tag-button{
+    font-size: 12px;
   }
 
   .forum-content {
@@ -286,12 +297,11 @@ src/css/HomePage.css .homepage-container {
 }
 
 @media (min-width: 767px) {
-  .post-card-container h2 {
-    font-size: 23px;
+  .post-card-container h2{
+    font-size: 22px;
   }
-
-  .post-card-container p {
-    font-size: 16px;
+  .post-card-container p{
+    font-size: 14px;
   }
 
   .forum-content {
@@ -300,22 +310,35 @@ src/css/HomePage.css .homepage-container {
 }
 
 @media (min-width: 1025px) {
-  .post-card-container h2 {
-    font-size: 25px;
+  .post-card-container h2{
+    font-size: 23px;
   }
-
-  .post-card-container p {
-    font-size: 18px;
-  }
-
-  .tag-button {
+  .post-card-container p{
     font-size: 15px;
+  }
+  .tag-button{
+    font-size: 12px;
   }
 
   .forum-content {
     height: 550px;
   }
 }
+
+
+
+@media (min-width: 1440px) {
+  .post-card-container h2{
+    font-size: 23px;
+  }
+  .post-card-container p{
+    font-size: 16px;
+  }
+  .tag-button{
+    font-size: 13px;
+  }
+}
+  
 
 .homepage-button-group {
   display: flex;
@@ -383,6 +406,7 @@ src/css/HomePage.css .homepage-container {
 
   transition: background-color 0.5s ease, box-shadow 0.5s ease;
 }
+
 
 html {
   scroll-behavior: smooth;
