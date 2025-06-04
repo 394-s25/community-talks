@@ -151,6 +151,19 @@
   color: white;
 }
 
+.homepage-button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.homepage-button.logout {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
 @media (min-width: 320px) {
   .forum-content{
     height: 615px;
@@ -165,13 +178,13 @@
 
 @media (min-width: 641px) {
   .post-card-container h2{
-    font-size: 21px;
+    font-size: 20px;
   }
   .post-card-container p{
-    font-size: 16px;
+    font-size: 14px;
   }
   .tag-button{
-    font-size: 14px;
+    font-size: 12px;
   }
   .forum-content{
     height: 550px;
@@ -180,10 +193,10 @@
 
 @media (min-width: 767px) {
   .post-card-container h2{
-    font-size: 23px;
+    font-size: 22px;
   }
   .post-card-container p{
-    font-size: 16px;
+    font-size: 14px;
   }
   .forum-content{
     height: 515px;
@@ -192,30 +205,31 @@
 
 @media (min-width: 1025px) {
   .post-card-container h2{
-    font-size: 25px;
+    font-size: 23px;
   }
   .post-card-container p{
-    font-size: 18px;
+    font-size: 15px;
   }
   .tag-button{
-    font-size: 15px;
+    font-size: 12px;
   }
   .forum-content{
     height: 550px;
   }
 }
 
-  .homepage-button-group {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 16px;
+
+
+@media (min-width: 1440px) {
+  .post-card-container h2{
+    font-size: 23px;
   }
-  
-  .homepage-button.logout {
-    background-color: #dc3545;
-    color: white;
-    border: none;
+  .post-card-container p{
+    font-size: 16px;
   }
+  .tag-button{
+    font-size: 13px;
+  }
+}
   
 
