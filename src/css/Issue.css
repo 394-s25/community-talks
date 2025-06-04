@@ -252,7 +252,7 @@ ul li {
   line-height: 1.4;
 }
 
-/* Feedback 按钮 */
+
 .submit-btn {
   margin-top: 8px;
   padding: 8px 16px;
@@ -260,13 +260,15 @@ ul li {
   background-color: #fff;
   cursor: pointer;
   border-radius: 4px;
+  color: #1f2937;
 }
+
 
 .submit-btn:hover {
   background-color: #f0f0f0;
 }
 
-/* Recording 列表 */
+/* Recording List Styles */
 .recording-list {
   display: flex;
   flex-direction: column;
@@ -288,7 +290,7 @@ ul li {
   color: #333;
 }
 
-/* 16:9 视频容器 */
+/* 16:9 video wrapper */
 .video-wrapper {
   position: relative;
   width: 100%;
