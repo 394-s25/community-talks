@@ -17,7 +17,7 @@ export default function NavBar({ currentPage = "/home" }) {
     };
 
     return (
-        <nav className="navbar bg-body-tertiary" style={{ borderBottom: "2px solid #ccc" }} >
+        <nav className="navbar bg-body-tertiary" style={{ borderBottom: "2px solid #ccc", zIndex: "1100" }} >
             <div className="container-fluid">
                 <a className="navbar-brand" onClick={() => navigate("/home")}>
                     <img src="/logoicon.svg" alt="Logo" onClick={() => navigate("/home")} width="30" height="24" className="d-inline-block align-text-top" />

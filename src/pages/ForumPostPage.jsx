@@ -4,7 +4,9 @@ import PageLoader from "../components/PageLoader";
 import PostCard from "../components/PostCard";
 import CommentCard from "../components/CommentCard";
 import AddCommentCard from "../components/AddCommentCard";
-import TopBannerAlert from '../components/TopBannerAlert';import SearchBar from "../components/SearchBar";
+import TopBannerAlert from '../components/TopBannerAlert';
+import SearchBar from "../components/SearchBar";
+import NavBar from "../components/Navbar";
 import { ref, get, push, query,orderByChild, equalTo, onValue} from "firebase/database";
 import { db, auth } from "../firebase"; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -45,13 +47,25 @@ export default function ForumPostPage(){
 
 
 
-    const addComment = (parentCommentUid=null, author, contentInfo) => {
+    const addComment = async (parentCommentUid=null, author, contentInfo) => {
         // console.log(parentCommentUid, author, contentInfo);
+        let username = auth.currentUser.email;
+        try {
+            const snap = await get(ref(db, 'users/' + author));
+            if (snap.exists()){
+                if (snap.val().username) {
+                    username = snap.val().username;
+                }
+            }
+        } catch (err) {
+            console.error("Error retrieving username from db:", err);
+        }
+
         const data = {
             parentPostId: postId,
             parentCommentId: parentCommentUid ? parentCommentUid : null,
             authorId: author,
-            authorUserName: author,
+            authorUserName: username,
             content: contentInfo,
             timestamp: Date.now(),
         }
@@ -124,49 +138,53 @@ export default function ForumPostPage(){
     }
 
     return (
-        <div className='homepage-container'>
-            <button className="back-button" onClick={() => navBack()} style={{display:"flex",left:0}}>
-                ← Back
-            </button>
-            <div>
-                <PostCard key={postId.id} post={parentPost} onPage={parentPage} onFullPage={true} addComment={addComment}/>
+        <div>
+            <NavBar currentPage="/forum" /> 
+            <div className='homepage-container' style={{padding: "2rem"}}>
+                {/* <div> */}
+                    <button className="back-button" onClick={() => navBack()} style={{display:"flex",left:0}}>
+                        ← Back
+                    </button>
+                    <div>
+                        <PostCard key={postId.id} post={parentPost} onPage={parentPage} onFullPage={true} addComment={addComment}/>
+                    </div>
+                    
+                    
+                        {/* comments container */}
+                        <div className="section-card">
+                            <div style={{display: "flex", justifyContent:"space-between", alignItems: "center"}}>
+                                <div className="section-title">
+                                    <h2><strong>Comments</strong></h2>
+                                </div>
+                                <div className="section-header">
+                                    <button className="add-cmt" onClick={() => canMakeComment()} style={{display:"flex", gap:"0.6rem", background:"none", color: "black"}}>
+                                        <FontAwesomeIcon className="icon" icon={faComment} fontSize={"1.5rem"} color="#007bff"/>
+                                        <p>Add a Comment</p>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="section-content">
+                                {/* For toplevel comments, so commentId=null (nothing needs to be passed)*/}
+                                <AddCommentCard addComment={addComment} isOpen={isAddCommentOpen} onClose={() => setAddCommentOpen(false)}/>
+                                
+                                <PageLoader loading={isLoading}>
+                                    {commentData.length === 0 ? <h5>No Comments</h5>
+                                : commentTree.map((comment) => (
+                                    <CommentCard key={comment.id} comment={comment} addComment={addComment} setShowTopBanner={setShowTopBanner} setBannerMessage={setBannerMessage}/>
+                                ))}
+                                </PageLoader>
+
+                            </div>
+                        </div>        
+                { showTopBanner && 
+                    (<TopBannerAlert 
+                        message={bannerMessage} 
+                        type={"error"} 
+                        onClose={() => onBannerClose()}
+                        />
+                )}
             </div>
-            
-            
-                {/* comments container */}
-                <div className="section-card">
-                    <div style={{display: "flex", justifyContent:"space-between", alignItems: "center"}}>
-                        <div className="section-title">
-                            <h2><strong>Comments</strong></h2>
-                        </div>
-                        <div className="section-header">
-                            <button className="add-cmt" onClick={() => canMakeComment()} style={{display:"flex", gap:"0.6rem", background:"none"}}>
-                                <FontAwesomeIcon className="icon" icon={faComment} fontSize={"1.5rem"} color="#007bff"/>
-                                <p>Add a Comment</p>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="section-content">
-                        {/* For toplevel comments, so commentId=null (nothing needs to be passed)*/}
-                        <AddCommentCard addComment={addComment} isOpen={isAddCommentOpen} onClose={() => setAddCommentOpen(false)}/>
-                        
-                        <PageLoader loading={isLoading}>
-                            {commentData.length === 0 ? <h5>No Comments</h5>
-                        : commentTree.map((comment) => (
-                            <CommentCard key={comment.id} comment={comment} addComment={addComment} setShowTopBanner={setShowTopBanner} setBannerMessage={setBannerMessage}/>
-                        ))}
-                        </PageLoader>
-
-                    </div>
-                </div>        
-        { showTopBanner && 
-            (<TopBannerAlert 
-                message={bannerMessage} 
-                type={"error"} 
-                onClose={() => onBannerClose()}
-                />
-        )}
         </div>
     );
 }

@@ -3,6 +3,9 @@ import React from "react";
 import "../css/SidebarNav.css";
 
 export default function SidebarNav({ sections, getIconForTitle, onSelect }) {
+    
+    
+
     return (
         <nav className="sidebar-nav">
             <div className="sidebar-top-logo" onClick={() => navigate("/home")}>

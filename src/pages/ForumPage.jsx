@@ -39,25 +39,39 @@ export default function ForumPage(){
     // const currPosts = tempDataPosts;
 
 
-    const addPost = ({titleInfo, contentInfo, user=null, tagsArray}) => {
+    const addPost = async ({titleInfo, contentInfo, user=null, tagsArray}) => {
         // tags is a list
         // console.log(titleInfo, contentInfo, user,tagsArray )
+        let username = auth.currentUser.email;
+        try {
+            const snap = await get(ref(db, 'users/' + auth.currentUser.uid));
+            if (snap.exists()){
+                if (snap.val().username) {
+                    username = snap.val().username;
+                }
+            }
+        } catch (err) {
+            console.error("Error retrieving username from db:", err);
+        }
+
         const data = {
             title: titleInfo,
             content: contentInfo,
-            creator: user?user:"None",
-            creatorUserName: user? user : "None",
+            creator: user !== null ? user:"None",
+            creatorUserName: username,
             tags: tagsArray,
             timestamp: Date.now(),
         }
+
+        console.log(data);
 
         // push this post
         // console.log(data);
         const postRef = push(ref(db, `${forumDbBaseRef}/posts`), data);
         // for each tag push this postRef (keeping track of all the posts under a common tag)
-        tagsArray.forEach((tag) => {
-            push(ref(db, `${forumDbBaseRef}/${tag}`), postRef.key);
-        });
+        // tagsArray.forEach((tag) => {
+        //     push(ref(db, `${forumDbBaseRef}/${tag}`), postRef.key);
+        // });
         // console.log("finished pushing:", postRef.key);
     }
 
@@ -180,10 +194,10 @@ export default function ForumPage(){
         <div>
             <NavBar currentPage='/forum'/>
             <div className='homepage-container'>
-                <header className="homepage-header">
-                    <button className="back-button" onClick={() => navigate("/")} style={{display:"flex",left:0}}>
+                <header className="homepage-header" style={{paddingTop: "2.5rem"}}>
+                    {/* <button className="back-button" onClick={() => navigate("/")} style={{display:"flex",left:0}}>
                         ← Back to Home
-                    </button>
+                    </button> */}
                     <h1>Community Forum</h1>
                     <p>Your hub for engaging discussions</p>
                 </header>
@@ -191,7 +205,7 @@ export default function ForumPage(){
                     <SearchBar data={allPosts} onSearch={filterPosts} isForum={true}/>
                     
                     <div style={{display:"flex", justifyContent:"flex-end"}}>
-                        <button className="add-cmt"  onClick={() => makePost()} style={{display:"flex", gap:"0.6rem", background:"none"}}>
+                        <button className="add-cmt"  onClick={() => makePost()} style={{display:"flex", gap:"0.6rem", background:"none", color: "black"}}>
                             <FontAwesomeIcon className='icon'  icon={faComment} fontSize={"1.5rem"} color="#007bff"/>
                             <p>Make a Post</p>
                         </button>

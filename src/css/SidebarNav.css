@@ -1,7 +1,7 @@
 /* ---------- sidebar container ---------- */
 .sidebar-nav {
     position: fixed;
-    top: 24px;
+    top: 64px;
     left: 0;
     width: 240px;
     height: calc(100vh - 64px);
@@ -10,6 +10,7 @@
     background-color: #f9fafb;
     border-right: 1px solid #e5e7eb;
     z-index: 1000;
+    transition: top 0.5s ease;
 }
 
 .sidebar-top-logo {

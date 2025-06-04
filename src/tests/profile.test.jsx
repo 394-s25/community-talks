@@ -5,6 +5,14 @@ import ProfilePage from '../Pages/profile';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 
+vi.mock('../contexts/AuthContext', () => ({
+  useAuth: () => ({
+    currentUser: { email: 'test@example.com' }, // or null if unauthenticated
+    logout: vi.fn(),
+  }),
+}));
+
+
 vi.mock('../firebase', () => ({
   db: {},
   auth: {

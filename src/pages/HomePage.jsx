@@ -60,7 +60,6 @@ export default function HomePage() {
   const [highlightedSection, setHighlightedSection] = useState(null);
   const handleSidebarSelect = (title) => {
     setHighlightedSection(title);
-
   };
 
   useEffect(() => {
@@ -105,9 +104,29 @@ export default function HomePage() {
       }
     };
 
+    
     fetchData();
     // setIsLoading(false);
   }, []);
+
+  useEffect(() => {
+    const navbarHeight = 64;
+    const sidebar = document.querySelector(".sidebar-nav");
+    const handleScroll = () => {
+      if (!sidebar) return;
+      if (window.scrollY > navbarHeight - 35){
+        sidebar.style.top = "0px";
+        sidebar.style.height = 'calc(100vh)';
+      } else {
+        sidebar.style.top = `${navbarHeight}px`;
+        sidebar.style.height = `calc(100vh - ${navbarHeight}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+
+  },[]);
 
   const handleEntityClick = async (category, slug) => {
     const encodedCategory = encodeURIComponent(category);
@@ -159,14 +178,11 @@ export default function HomePage() {
 
   return (
 
-    <div>
+    // <div>
       
 
       <div className="homepage-container">
-
-
-
-
+        <NavBar />
         <div className="homepage-layout">
       
           <SidebarNav
@@ -188,7 +204,7 @@ export default function HomePage() {
 
 
           <main className="homepage-main">
-            <NavBar />
+            {/* <NavBar /> */}
             <header className="homepage-header">
               <h1>Welcome to Community Talks</h1>
               <p>Your hub for engaging discussions</p>
@@ -226,7 +242,8 @@ export default function HomePage() {
           </main>
         </div>
       </div>
-    </div>
+    
+    // </div>
 
 
   );

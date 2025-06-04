@@ -1,5 +1,5 @@
-src/css/HomePage.css .homepage-container {
-  padding: 40px 20px;
+.homepage-container {
+  /* padding: 40px 20px; */
   font-family: Arial, sans-serif;
   background-color: #fafafa;
   min-height: 100vh;
@@ -8,6 +8,39 @@ src/css/HomePage.css .homepage-container {
 .homepage-header {
   text-align: center;
   margin-bottom: 30px;
+  /* padding: 0.5rem 0.75rem; */
+}
+
+.homepage-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+
+.homepage-main {
+  flex: 1;
+  min-width: 0;
+  padding: 2rem 1rem;
+  margin-left: 240px;
+
+}
+
+
+@media (max-width: 767px) {
+  .homepage-main {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+.homepage-column.highlight {
+  background-color: #fef9c3;
+
+  box-shadow: 0 0 0 3px #facc15;
+
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
 }
 
 .homepage-button {
@@ -26,6 +59,7 @@ src/css/HomePage.css .homepage-container {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
   margin-top: 2rem;
+  padding: 1rem;
 }
 
 .homepage-column {
@@ -255,6 +289,19 @@ src/css/HomePage.css .homepage-container {
   color: white;
 }
 
+.homepage-button-group {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.homepage-button.logout {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
 @media (min-width: 320px) {
   .forum-content {
     height: 615px;
@@ -268,16 +315,14 @@ src/css/HomePage.css .homepage-container {
 }
 
 @media (min-width: 641px) {
-  .post-card-container h2 {
-    font-size: 21px;
+  .post-card-container h2{
+    font-size: 20px;
   }
-
-  .post-card-container p {
-    font-size: 16px;
-  }
-
-  .tag-button {
+  .post-card-container p{
     font-size: 14px;
+  }
+  .tag-button{
+    font-size: 12px;
   }
 
   .forum-content {
@@ -286,12 +331,11 @@ src/css/HomePage.css .homepage-container {
 }
 
 @media (min-width: 767px) {
-  .post-card-container h2 {
-    font-size: 23px;
+  .post-card-container h2{
+    font-size: 22px;
   }
-
-  .post-card-container p {
-    font-size: 16px;
+  .post-card-container p{
+    font-size: 14px;
   }
 
   .forum-content {
@@ -300,22 +344,35 @@ src/css/HomePage.css .homepage-container {
 }
 
 @media (min-width: 1025px) {
-  .post-card-container h2 {
-    font-size: 25px;
+  .post-card-container h2{
+    font-size: 23px;
   }
-
-  .post-card-container p {
-    font-size: 18px;
-  }
-
-  .tag-button {
+  .post-card-container p{
     font-size: 15px;
+  }
+  .tag-button{
+    font-size: 12px;
   }
 
   .forum-content {
     height: 550px;
   }
 }
+
+
+
+@media (min-width: 1440px) {
+  .post-card-container h2{
+    font-size: 23px;
+  }
+  .post-card-container p{
+    font-size: 16px;
+  }
+  .tag-button{
+    font-size: 13px;
+  }
+}
+  
 
 .homepage-button-group {
   display: flex;
@@ -352,37 +409,7 @@ src/css/HomePage.css .homepage-container {
   }
 }
 
-.homepage-layout {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 1.5rem;
-}
 
-
-.homepage-main {
-  flex: 1;
-  min-width: 0;
-  padding: 2rem 1rem;
-  margin-left: 240px;
-
-}
-
-
-@media (max-width: 767px) {
-  .homepage-main {
-    margin-left: 0;
-    padding: 1rem;
-  }
-}
-
-.homepage-column.highlight {
-  background-color: #fef9c3;
-
-  box-shadow: 0 0 0 3px #facc15;
-
-  transition: background-color 0.5s ease, box-shadow 0.5s ease;
-}
 
 html {
   scroll-behavior: smooth;

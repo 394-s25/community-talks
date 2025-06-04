@@ -1,5 +1,6 @@
 import { describe, it, expect, test, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
+import { AuthProvider } from '../contexts/AuthContext';
 import { MemoryRouter } from 'react-router-dom';
 import "@testing-library/jest-dom";
 import ForumPage from '../Pages/ForumPage';
@@ -23,13 +24,15 @@ describe("ForumPage", () => {
 
     test("renders page header", async () => {
         render(
-            <MemoryRouter>
-                <ForumPage/>
-            </MemoryRouter>
+            <AuthProvider>
+                <MemoryRouter>
+                    <ForumPage/>
+                </MemoryRouter>
+            </AuthProvider>
         );
 
         await waitFor(() => {
-            expect(screen.findByText("Community Forum").toBeInTheDocument());
+            expect(screen.findByText("Community Forum"));
         });
     });
 });

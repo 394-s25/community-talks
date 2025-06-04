@@ -17,30 +17,35 @@ const header = {
     'Referer': 'https://google.com/',
   };
 
-async function pupCrawl(){
-    const browser = await puppeteer.launch({headless: true});
-    const page = await browser.newPage();
-    await page.goto(BASE_URL, {waitUntil: 'networkidle2'});
-    const content = await page.content();
-    console.log(content);
-    await browser.close();
+// this works
+axios.get(BASE_URL + `/government/boards-commissions-and-committees`, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+                    '(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+      'Accept-Language': 'en-US,en;q=0.5',
+      'Referer': 'https://google.com/',
+    }
+  })
+  .then(response => console.log(response.data))
+  .catch(error => console.error(error.response.status));
+
+async function crawlEvents(){
+  try {
+    const events = []
+    axios.get(BASE_URL + `/about-evanston/events`, {header}).then(res => {
+      const $ = cheerio.load(res.data);
+      let calId = $("#events_widget_50_2041_502");
+      // calId = $("table .calendar-mini-grid-grid").attr("class");
+      console.log(calId.html());
+      // console.log(calId.html());
+    }).catch(err => console.error("Error scraping events page:", err));
+  } catch (err) {
+    console.error("Error in crawlEvents function:", err);
+  }
 }
 
-//pupCrawl();
-
-// this works
-// axios.get(BASE_URL + `/government/boards-commissions-and-committees`, {
-//     headers: {
-//       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
-//                     '(KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-//       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-//       'Accept-Language': 'en-US,en;q=0.5',
-//       'Referer': 'https://google.com/',
-//     }
-//   })
-//   .then(response => console.log(response.data))
-//   .catch(error => console.error(error.response.status));
-
+crawlEvents();
 
 async function crawlPage(path = '/home') {
   try {
@@ -64,6 +69,15 @@ async function crawlPage(path = '/home') {
 }
 
 //crawlPage();
+
+async function pupCrawl(){
+  const browser = await puppeteer.launch({headless: true});
+  const page = await browser.newPage();
+  await page.goto(BASE_URL, {waitUntil: 'networkidle2'});
+  const content = await page.content();
+  console.log(content);
+  await browser.close();
+}
 
 
 // get the page with url (static for now)
@@ -114,4 +128,4 @@ async function scrapeBoardMemberNames() {
     }
 }
     
-scrapeBoardMemberNames();
+// scrapeBoardMemberNames();
