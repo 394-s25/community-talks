@@ -1,24 +1,24 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
-// Using environment variables for security
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyClBnNVK8nOlVV2haZLDNGLonveoe8PwF8",
+  authDomain: "community-talks-cdaf9.firebaseapp.com",
+  databaseURL: "https://community-talks-cdaf9-default-rtdb.firebaseio.com",
+  projectId: "community-talks-cdaf9",
+  storageBucket: "community-talks-cdaf9.firebasestorage.app",
+  messagingSenderId: "625909406584",
+  appId: "1:625909406584:web:25e428b5ab6370a118068d",
+  measurementId: "G-5E81X0KQPD"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
-// Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
-
-const auth = getAuth(app);
-export { auth, db };
-
+const analytics = getAnalytics(app);
+export const auth = getAuth(app);
+export const db = getDatabase(app);

@@ -5,6 +5,7 @@ import HomePage from '../pages/HomePage';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 import { fireEvent } from '@testing-library/react';
+const mockNavigate = vi.fn();
 
 // Mock AuthContext
 vi.mock('../contexts/AuthContext', () => ({
@@ -100,4 +101,48 @@ describe('HomePage interactive behavior', () => {
     expect(window.HTMLElement.prototype.scrollIntoView).toHaveBeenCalled();
     expect(section.className).toContain('highlight');
   });
+
+  test('clicking a committee item triggers correct navigation or fallback', async () => {
+    
+    vi.mock('react-router-dom', async () => {
+      const actual = await vi.importActual('react-router-dom');
+      return {
+        ...actual,
+        useNavigate: () => mockNavigate,
+      };
+    });
+
+    const { get } = await import('firebase/database');
+    get
+      .mockResolvedValueOnce({
+        val: () => ({
+          'Standing Committees of the Council': {
+            finance: { name: 'Finance Committee', slug: 'finance' },
+          },
+        }),
+      })
+      .mockResolvedValueOnce({ val: () => ({}) }) // detail not found
+      .mockResolvedValueOnce({
+        val: () => ({
+          finance: { name: 'Finance Committee', slug: 'finance' },
+        }),
+      });
+
+    const openSpy = vi.spyOn(window, 'open').mockImplementation(() => { });
+
+    render(
+      <MemoryRouter>
+        <HomePage />
+      </MemoryRouter>
+    );
+
+    await waitFor(() =>
+      expect(screen.getByText('Finance Committee')).toBeInTheDocument()
+    );
+
+    fireEvent.click(screen.getByText('Finance Committee'));
+    openSpy.mockRestore();
+  });
+
+
 });
