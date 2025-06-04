@@ -1,7 +1,7 @@
 // ProfilePage.test.jsx
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import ProfilePage from '../Pages/profile';
+import ProfilePage from '../pages/profile';
 import { MemoryRouter } from 'react-router-dom';
 import '@testing-library/jest-dom';
 
