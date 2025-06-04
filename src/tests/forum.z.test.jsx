@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { AuthProvider } from '../contexts/AuthContext';
 import { MemoryRouter } from 'react-router-dom';
 import "@testing-library/jest-dom";
-import ForumPage from '../Pages/ForumPage';
+import ForumPage from '../pages/ForumPage';
 
 
 // it('math is easy', ({ expect }) => {

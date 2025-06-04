@@ -2,8 +2,7 @@
 
 import { describe, expect, test, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import HomePage from '../Pages/HomePage';
-import { AuthProvider } from '../contexts/AuthContext';
+import HomePage from '../pages/HomePage';
 import '@testing-library/jest-dom';
 
 import { MemoryRouter } from 'react-router-dom';
@@ -39,22 +38,22 @@ describe('HomePage component', () => {
 
   test('renders welcome message', () => {
     render(
-      <AuthProvider>
+      // <AuthProvider>
         <MemoryRouter>
           <HomePage />
         </MemoryRouter>
-      </AuthProvider>
+      // </AuthProvider>
     );
     expect(screen.getByText('Welcome to Community Talks')).toBeInTheDocument();
   });
 
   test('displays committee from firebase data', async () => {
     render(
-      <AuthProvider>
+      // <AuthProvider>
         <MemoryRouter>
           <HomePage />
         </MemoryRouter>
-      </AuthProvider>
+      // </AuthProvider>
     );
 
     await waitFor(() =>
