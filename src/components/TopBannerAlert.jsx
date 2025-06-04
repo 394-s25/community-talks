@@ -9,6 +9,7 @@ export default function TopBannerAlert({message, type="info", onClose}){
             <button
             onClick={onClose}
             className="close-button"
+            style={{marginTop: "0"}}
             >
             X
             </button>

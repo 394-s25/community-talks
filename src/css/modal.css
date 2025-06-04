@@ -71,14 +71,15 @@
     padding: 10px;
     text-align: center;
     color: white;
-    z-index: 1000;
+    z-index: 1500;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .top-alert.info {
-    background-color: #5b21b6;
+    /* background-color: #5b21b6; */
+    background-color: rgb(0, 123, 255);
 }
 
 .top-alert.error {

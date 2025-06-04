@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, createContext } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { ref, get } from "firebase/database";
 import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -17,16 +18,36 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
+  // const [username, setUsername] = useState(null);
   const [loading, setLoading] = useState(true);
 
   // Listen for Firebase auth state changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      // if (user !== null){
+      //   // retrieve username from databse if it exists
+      //   setUsername(getUsername(user.uid));
+      // } else setUsername(null);
+
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
+
+  // Get username if exists
+  const getUsername = async (uid) => {
+    try {
+      const snap = await get(ref(db, 'users/' + uid));
+      if (snap.exists()){
+        const user = snap.val();
+        if (user.username) return user.username;
+        else return uid;  
+      }
+    } catch (err) {
+      console.error("Error retrieving username:", err);
+    }
+  }
 
   // Email + password signup
   const signup = (email, password) => {
@@ -51,6 +72,7 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    // username,
     login,
     signup,
     logout,

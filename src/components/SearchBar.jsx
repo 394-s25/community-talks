@@ -44,7 +44,7 @@ export default function SearchBar({data, onSearch, isForum}){
     }
 
     return (
-        <div className="input-group" style={{alignItems: "flex-start",flexWrap: 'nowrap', width:"100%"}}>
+        <div className="input-group" style={{alignItems: "flex-start", justifyContent: "center",flexWrap: 'nowrap', width:"100%"}}>
             <div className="form-outline" style={{width: '90vw'}} data-mdb-input-init>
                 <input 
                     type="search" 
@@ -55,7 +55,7 @@ export default function SearchBar({data, onSearch, isForum}){
                     aria-label="Search through forum posts"
                     onChange={handleSearchChange} />
             </div>
-            <button type="button" onClick={handleSearch} className="btn btn-primary" style={{marginLeft:"-10px"}} data-mdb-ripple-init>
+            <button type="button" onClick={handleSearch} className="btn btn-primary" style={{marginLeft:"-2.5px", marginTop: "0"}} data-mdb-ripple-init>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </button>
         </div>

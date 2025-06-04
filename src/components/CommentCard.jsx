@@ -34,7 +34,7 @@ export default function CommentCard({comment, addComment, setShowTopBanner, setB
 
     // checks if a user is logged in, 
     // if they are they can make a comment
-    const makeComment = () => {
+    const checkIfCanMakeComment = () => {
         if (auth.currentUser === null){
             setBannerMessage("You must be logged in to reply a comment!");
             setShowTopBanner(true);
@@ -82,12 +82,12 @@ export default function CommentCard({comment, addComment, setShowTopBanner, setB
                 <p>{convertTimestamp(comment.timestamp)}</p>
             </div>
             <div className="comment-body">
-                {comment.content}
+                <p>{comment.content}</p>
             </div>
             <div className="comment-footer">
                 <div>
                     {/* Make a Comment */}
-                    <p className="clickable min-font" onClick={makeComment}>
+                    <p className="clickable min-font" onClick={checkIfCanMakeComment}>
                         Reply
                     </p>
                 </div>
