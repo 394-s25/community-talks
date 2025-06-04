@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import UpcomingMeetings from '../components/UpcomingMeetings';
 import { auth, db } from "../firebase";
 import { ref, set, get, child,update } from "firebase/database";
-import "../css/Issue.css";
+// import "../css/Issue.css";
+import NavBar from "../components/Navbar";
+import "../css/profile.css";
 
 const meetings = [
   {
@@ -67,7 +69,8 @@ export default function ProfilePage() {
 
 
   const navigate = useNavigate();
-
+  const isValidUSZip = (zip) =>
+    /^\d{5}$/.test(zip) && parseInt(zip, 10) >= 501 && parseInt(zip, 10) <= 99950;
   const updateInterestsInDB = async (updatedInterests) => {
     const user = auth.currentUser;
     if (user) {
@@ -76,7 +79,34 @@ export default function ProfilePage() {
       });
     }
   };
-  
+  const handleSaveProfile = async () => {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("User not logged in");
+      return;
+    }
+
+    // Optional: Validate zipcode before saving
+    if (!isValidUSZip(zipcode)) {
+      alert("❌ Please enter a valid 5-digit US ZIP Code in range.");
+      return;
+    }
+
+    try {
+      await update(ref(db, `users/${user.uid}`), {
+        zipcode,
+        gender,
+        race,
+        homeowner,
+      });
+      alert("✅ Profile saved successfully!");
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      alert("❌ Failed to save profile.");
+    }
+  };
+
+
   const handleAddInterest = async (label) => {
     const updated = [...interests, { label }];
     setInterests(updated);
@@ -109,27 +139,6 @@ export default function ProfilePage() {
     return () => unsubscribe();
   }, []);
 
-  const isValidUSZip = (zip) =>
-    /^\d{5}$/.test(zip) && parseInt(zip, 10) >= 501 && parseInt(zip, 10) <= 99950;
-
-  const handleZipcodeUpdate = async () => {
-    const zip = newZipcode.trim();
-
-    if (!isValidUSZip(zip)) {
-      alert("❌ Please enter a valid 5-digit US ZIP Code in range.");
-      return;
-    }
-
-    const user = auth.currentUser;
-    if (user) {
-      await update(ref(db, `users/${user.uid}`), {
-        zipcode: zip,
-      });
-      setZipcode(zip);
-      setNewZipcode("");
-    }
-  };
-
 
 
   const togglePreference = (pref) => {
@@ -159,75 +168,110 @@ export default function ProfilePage() {
     }
   };
   
-  const handleSaveDemographics = async () => {
-    const user = auth.currentUser;
 
-    if (user) {
-      await update(ref(db, `users/${user.uid}`), {
-        gender,
-        race,
-        homeowner
-      });
-      alert("✅ Demographics saved");
-    }
-  };
 
   return (
-    <div style={{ display: 'flex', flexDirection: "column", height: '100vh', margin: '1rem' }}>
-      <button className="back-button" onClick={() => navigate("/")}>
-        ← Back to Home
-      </button>
-
-      <div>
-        <h2 className='page-title'>Profile</h2>
-        <p className="page-subtitle"><strong>Email:</strong> {email}</p>
-        <p className="page-subtitle"><strong>Zipcode:</strong> {zipcode}</p>
-        <input
-          type="text"
-          placeholder="Enter new zipcode"
-          value={newZipcode}
-          onChange={(e) => setNewZipcode(e.target.value)}
-        />
-        <button onClick={handleZipcodeUpdate}>Update Zipcode</button>
+    <div className="profile-container">
+      <NavBar />
+      <div className="profile-header">
+        <button className="back-button" onClick={() => navigate("/")} style={{display:"flex",left:0}}>
+          ← Back to Home
+        </button>
+        <h1>Profile</h1>
       </div>
 
-      <div style={{ display: 'flex', alignItems: "flex-start", justifyContent: "left" }}>
-        <div className="section-box" style={{ margin: "1rem" }}>
+      <div className="section-box">
+        <div className="profile-info-item">
+          <strong>Email:</strong>
+          <span>{email}</span>
+        </div>
+
+        <div className="profile-info-item">
+          <strong>Zipcode:</strong>
+          <input
+            type="text"
+            placeholder="Enter zipcode"
+            value={zipcode}
+            onChange={(e) => setZipcode(e.target.value)}
+          />
+        </div>
+
+        <div className="profile-info-item">
+          <label>Gender:</label>
+          <select value={gender} onChange={(e) => setGender(e.target.value)}>
+            <option value="">Select gender</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Non-binary">Non-binary</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div className="profile-info-item">
+          <label>Race:</label>
+          <select value={race} onChange={(e) => setRace(e.target.value)}>
+            <option value="">Select race</option>
+            <option value="Asian">Asian</option>
+            <option value="Black or African American">Black or African American</option>
+            <option value="Hispanic or Latino">Hispanic or Latino</option>
+            <option value="White">White</option>
+            <option value="Native American or Alaska Native">Native American or Alaska Native</option>
+            <option value="Native Hawaiian or Pacific Islander">Native Hawaiian or Pacific Islander</option>
+            <option value="Two or More Races">Two or More Races</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+
+        <div className="profile-info-item">
+          <label>Homeownership Status:</label>
+          <select value={homeowner} onChange={(e) => setHomeowner(e.target.value)}>
+            <option value="">Select status</option>
+            <option value="Homeowner">Homeowner</option>
+            <option value="Renter">Renter</option>
+            <option value="Prefer not to say">Prefer not to say</option>
+          </select>
+        </div>
+        <button onClick={handleSaveProfile}>Save Profile</button>
+      </div>
+
+
+      <div className="profile-flex-layout">
+        <div className="section-box interests-section">
           <h3>Interest Areas</h3>
-          <ul style={{ textDecoration: "none", listStyle: "none", paddingLeft: 0 }}>
+          <div className="interest-grid">
             {interests.map((item) => (
-              <li key={item.label} style={{ marginBottom: "0.5rem" }}>
+              <div
+                key={item.label}
+                className="profile-interest-item"
+                onClick={() => navigate(`/department/${encodeURIComponent(item.label)}`)}
+              >
                 {item.label}
-                <button
-                  onClick={() => navigate(`/department/${encodeURIComponent(item.label)}`)}
-                  style={{ marginLeft: "10px" }}
-                >
-                  Go To Page
-                </button>
-                <button onClick={() => handleRemoveInterest(item.label)} style={{ marginLeft: "5px" }}>
-                  Remove
-                </button>
-              </li>
+                <button onClick={(e) => {
+                  e.stopPropagation(); // prevent navigation on button click
+                  handleRemoveInterest(item.label);
+                }}>Remove</button>
+              </div>
             ))}
-          </ul>
+          </div>
+
           <h3>Add More Interest Areas</h3>
-          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+          <div className="interest-grid">
             {allInterestOptions
               .filter(label => !interests.find(item => item.label === label))
               .map(label => (
-                <li key={label} style={{ marginBottom: "0.5rem" }}>
-                  {label}
-                  <button onClick={() => handleAddInterest(label)} style={{ marginLeft: "10px" }}>
-                    Add
-                  </button>
-                </li>
+                <div key={label} className="profile-interest-item">
+                  <span>{label}</span>
+                  <button onClick={() => handleAddInterest(label)}>Add</button>
+                </div>
               ))}
-          </ul>
+          </div>
         </div>
 
-        <div className="section-box" style={{ margin: "1rem" }}>
+
+        <div className="section-box preferences-section">
           <h3>Engagement Preferences:</h3>
-          <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+          <ul>
             {allPreferences.map((pref) => (
               <li key={pref}>
                 <label>
@@ -245,61 +289,16 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div className="section-box" style={{ margin: "1rem", width: "100%" }}>
-        <h3>Previous Public Decision Making Experiences</h3>
+      <div className="section-box">
+        <h3>Previous Community Experiences</h3>
         <textarea
           placeholder="Gone to a meeting, ran for office, or submitted comment"
           value={experience}
           onChange={(e) => setExperience(e.target.value)}
-          style={{
-            width: "100%",
-            height: "100px",
-            padding: "10px",
-            borderRadius: "8px",
-            border: "1px solid #ccc",
-            fontSize: "1rem",
-            resize: "vertical",
-          }}
         />
-        <button onClick={handleSaveExperience} style={{ marginTop: "10px" }}>
-          Save Experience
-        </button>
+        <button onClick={handleSaveExperience}>Save Experience</button>
       </div>
-      <div className="section-box" style={{ margin: "1rem" }}>
-        <h3>Demographic Information (Optional)</h3>
 
-        <label>Gender:</label>
-        <select value={gender} onChange={(e) => setGender(e.target.value)}>
-          <option value="">Select gender</option>
-          <option value="Female">Female</option>
-          <option value="Male">Male</option>
-          <option value="Non-binary">Non-binary</option>
-          <option value="Prefer not to say">Prefer not to say</option>
-          <option value="Other">Other</option>
-        </select>
-
-        <label>Race:</label>
-        <select value={race} onChange={(e) => setRace(e.target.value)}>
-          <option value="">Select race</option>
-          <option value="Asian">Asian</option>
-          <option value="Black or African American">Black or African American</option>
-          <option value="Hispanic or Latino">Hispanic or Latino</option>
-          <option value="White">White</option>
-          <option value="Native American or Alaska Native">Native American or Alaska Native</option>
-          <option value="Native Hawaiian or Pacific Islander">Native Hawaiian or Pacific Islander</option>
-          <option value="Two or More Races">Two or More Races</option>
-          <option value="Prefer not to say">Prefer not to say</option>
-        </select>
-        <label>Homeownership Status:</label>
-        <select value={homeowner} onChange={(e) => setHomeowner(e.target.value)}>
-          <option value="">Select status</option>
-          <option value="Homeowner">Homeowner</option>
-          <option value="Renter">Renter</option>
-          <option value="Prefer not to say">Prefer not to say</option>
-        </select>
-
-        <button onClick={handleSaveDemographics}>Save Demographics</button>
-      </div>
       <div>
         <UpcomingMeetings meetings={meetings} />
       </div>
