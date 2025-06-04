@@ -1,21 +1,18 @@
 // src/App.jsx
 
-import React from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
-import logo from './logo.svg';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
-import NavBar from './components/Navbar.jsx';
-import LoginPage from './Pages/LoginPage.jsx';
-import HomePage from './Pages/HomePage';
-import IssuePage from './Pages/issue';
-import ForumPage from "./Pages/ForumPage";
-import ForumPostPage from './Pages/ForumPostPage';
-import ProfilePage from './Pages/profile';
-import FunctionPage from "./Pages/FunctionPage";
-// import FunctionPage from './Pages/FunctionPage'; // <-- 来自 origin/main
+import { AuthProvider } from './contexts/AuthContext';
+import ForumPage from "./pages/ForumPage.jsx";
+import ForumPostPage from './pages/ForumPostPage.jsx';
+import FunctionPage from "./pages/FunctionPage.jsx";
+import HomePage from './pages/HomePage.jsx';
+import IssuePage from './pages/issue.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import ProfilePage from './pages/profile.jsx';
+// import FunctionPage from './Pages/FunctionPage'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';

@@ -6,12 +6,62 @@ import { useAuth } from "../contexts/AuthContext";
 import NavBar from "../components/Navbar";
 import PageLoader from "../components/PageLoader";
 import "../css/HomePage.css";
+import SidebarNav from "../components/SidebarNav";
+
+import {
+  FaUsers,
+  FaCogs,
+  FaUniversity,
+  FaChartBar,
+  FaLeaf,
+  FaBalanceScale,
+  FaSchool,
+  FaBusinessTime,
+  FaBuilding,
+  FaHandsHelping,
+  FaGavel,
+  FaHandshake,
+  FaShieldAlt,
+  FaLandmark,
+  FaHouseUser,
+  FaVoteYea,
+  FaPeopleArrows,
+  FaRegLightbulb
+} from "react-icons/fa";
+
+
+
+
+const getIconForTitle = (title) => {
+  const titleLower = title.toLowerCase();
+
+  if (titleLower.includes("equity")) return <FaPeopleArrows className="column-icon icon-equity" />;
+  if (titleLower.includes("government") || titleLower.includes("democracy")) return <FaVoteYea className="column-icon icon-government" />;
+  if (titleLower.includes("housing")) return <FaHouseUser className="column-icon icon-housing" />;
+  if (titleLower.includes("public safety")) return <FaShieldAlt className="column-icon icon-safety" />;
+  if (titleLower.includes("human services")) return <FaHandsHelping className="column-icon icon-services" />;
+  if (titleLower.includes("zoning") || titleLower.includes("infrastructure")) return <FaLandmark className="column-icon icon-zoning" />;
+  if (titleLower.includes("development")) return <FaBusinessTime className="column-icon icon-development" />;
+  if (titleLower.includes("environment")) return <FaLeaf className="column-icon icon-environment" />;
+  if (titleLower.includes("education") || titleLower.includes("youth")) return <FaSchool className="column-icon icon-education" />;
+  if (titleLower.includes("ethics") || titleLower.includes("legal")) return <FaBalanceScale className="column-icon icon-ethics" />;
+  if (titleLower.includes("rules") || titleLower.includes("committee")) return <FaGavel className="column-icon icon-default" />;
+
+  return <FaRegLightbulb className="column-icon icon-default" />; // fallback icon
+};
+
+
 
 export default function HomePage() {
   const navigate = useNavigate();
   const { logout } = useAuth?.() || {};
   const [issueAreas, setIssueAreas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [highlightedSection, setHighlightedSection] = useState(null);
+  const handleSidebarSelect = (title) => {
+    setHighlightedSection(title);
+
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,52 +158,76 @@ export default function HomePage() {
   };
 
   return (
+
     <div>
-      <NavBar/>
-    
+      
+
       <div className="homepage-container">
-        <header className="homepage-header">
-          <h1>Welcome to Community Talks</h1>
-          <p>Your hub for engaging discussions</p>
 
-          {/* <div className="homepage-button-group">
-            <button
-              className="homepage-button"
-              onClick={() => navigate("/profile")}
-            >
-              Go to Profile
-            </button>
-            <button
-              className="homepage-button logout"
-              onClick={handleLogout}
-            >
-              Sign Out
-            </button>
-          </div> */}
 
-        </header>
 
-        <PageLoader loading={isLoading}>
-          <main className="homepage-grid">
-            {issueAreas.map((area) => (
-              <div key={area.title} className="homepage-column">
-                <h2 className="homepage-column-header">{area.title}</h2>
-                <ul className="homepage-list">
-                  {area.entities.map(({ slug, name }) => (
-                    <li
-                      key={slug}
-                      className="homepage-list-item"
-                      onClick={() => handleEntityClick(area.title, slug)}
-                    >
-                      {name}
-                    </li>
-                  ))}
-                </ul>
+
+        <div className="homepage-layout">
+      
+          <SidebarNav
+            sections={issueAreas}
+            getIconForTitle={getIconForTitle}
+
+            onSelect={(title) => {
+              const targetId = title.replace(/\s+/g, "-").toLowerCase();
+              const element = document.getElementById(targetId);
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+                setHighlightedSection(targetId);
+
+                //  2s remove highlight
+                setTimeout(() => setHighlightedSection(null), 2000);
+              }
+            }}
+          />
+
+
+          <main className="homepage-main">
+            <NavBar />
+            <header className="homepage-header">
+              <h1>Welcome to Community Talks</h1>
+              <p>Your hub for engaging discussions</p>
+            </header>
+            <PageLoader loading={isLoading}>
+              <div className="homepage-grid">
+                {issueAreas.map((area) => (
+                  <div
+                    key={area.title}
+                    id={area.title.replace(/\s+/g, "-").toLowerCase()}
+                    className={`homepage-column ${highlightedSection === area.title.replace(/\s+/g, "-").toLowerCase()
+                      ? "highlight"
+                      : ""
+                      }`}
+                  >
+                    <h2 className="homepage-column-header">
+                      {getIconForTitle(area.title)} {area.title}
+                    </h2>
+
+                    <ul className="homepage-list">
+                      {area.entities.map(({ slug, name }) => (
+                        <li
+                          key={slug}
+                          className="homepage-list-item"
+                          onClick={() => handleEntityClick(area.title, slug)}
+                        >
+                          {name}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
-            ))}
+            </PageLoader>
           </main>
-        </PageLoader>
+        </div>
       </div>
     </div>
+
+
   );
 }
