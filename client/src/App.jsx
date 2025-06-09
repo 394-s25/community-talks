@@ -12,7 +12,7 @@ import HomePage from './pages/HomePage.jsx';
 import IssuePage from './pages/issue.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import ProfilePage from './pages/profile.jsx';
-import CalEvents from './components/CalEvents.jsx';
+import CalEventsBanner from './components/CalEventsBanner.jsx';
 // import FunctionPage from './Pages/FunctionPage'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -33,7 +33,7 @@ function App() {
           <Route path="/department/:category/:slug" element={<IssuePage />} />
 
           <Route path="/forum" element={<ForumPage />}/>
-          <Route path="/calendar" element={<CalEvents/>} />
+          <Route path="/calendar" element={<CalEventsBanner/>} />
 
 
           <Route path="/function" element={<FunctionPage />} />

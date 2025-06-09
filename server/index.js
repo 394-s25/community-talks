@@ -1,10 +1,31 @@
+// 
+// Backend Server for communityTalks
+// this server was built to run based on firebase's HTTP function methods
+// 
 const express = require("express");
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const punycode = require('punycode/');
 const cors = require("cors"); //for headers
 
+
+// if running on local machine uncomment the below
+// admin.initializeApp();
+// const app = express();
+// const PORT = 5001;
+
+// app.use(cors({
+//     origin:"http://localhost:5173",
+//     methods: ['GET', 'POST', 'PUT', 'DELETE']
+// }));
+
+
+// if deploying to firebase uncomment the below
+admin.initializeApp();
 const app = express();
-const PORT = 5001;
+
 const BASE_URL = `https://www.cityofevanston.org/`;
 const URL = `https://www.cityofevanston.org/about-evanston/events`;
 const header = {
@@ -14,7 +35,7 @@ const header = {
     'Accept-Language': 'en-US,en;q=0.5',
     'Referer': 'https://google.com/',
 };
-const calEvents = [] //first entry is the month
+let calEvents = [] //first entry is the month
 
 app.use(cors({
     origin:"http://localhost:5173",
@@ -23,12 +44,8 @@ app.use(cors({
 app.use(express.json());
 // serve the data to the path /api/data
 
-// app.get('/api/data', (req, res) => {
-//     res.json({message: "Hello from server!"});
-// })
-
-
 app.get("/api/data", async (req, res) => {
+    const temp = [];
     try {
         
         const response = await axios.get(URL, {headers: header});
@@ -53,23 +70,12 @@ app.get("/api/data", async (req, res) => {
             // getMonth returns the month number (0-idx) from a new Date obj
         }
 
-        // console.log(monthCls.find(".current_month_title").children());
-        // console.log("Curr month:",currentMonth);
-        calEvents.push({month: currentMonth});
+        temp.push({month: currentMonth});
 
         //
         // get calendar events
         //
 
-        // let calId = $("#events_widget_50_2041_502 .calendar-mini-grid-grid");
-        // const calHtml = calId.html();
-        // console.log('calHtml exists?', !!calHtml);
-        // console.log('calHtml length:', calHtml?.length);
-        
-        // div.calendar_items
-        //  div.calendar_item
-        //      span.calendar_eventtime
-        //      a.calendar_eventlink
         const calHtml = $(".calendar-mini-grid-grid").first().html();
         if (!calHtml) {
             console.error("❌ Could not find calendar HTML — check selector.");
@@ -112,11 +118,10 @@ app.get("/api/data", async (req, res) => {
               day.events.push({ time, title, link:  BASE_URL + href });
             });
           
-            calEvents.push(day);
+            temp.push(day);
           });
-
-        //console.log($$.html());
-        // res.send(calEvents);
+        
+        calEvents = temp;
         res.json(calEvents);
     } catch (err) {
         console.error("Error fetching data:", err.message);
@@ -124,7 +129,11 @@ app.get("/api/data", async (req, res) => {
     }
 });
 
+//create the http function for firebase
+exports.api = functions.https.onRequest(app);
 
-app.listen(PORT, () => {
-    console.log(`Server actively running at http://localhost:${PORT}`);
-})
+
+// // uncomment if running locally
+// app.listen(PORT, () => {
+//     console.log(`Server actively running at http://localhost:${PORT}`);
+// })

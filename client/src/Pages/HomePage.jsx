@@ -5,6 +5,7 @@ import { ref, get } from "firebase/database";
 import { useAuth } from "../contexts/AuthContext";
 import NavBar from "../components/Navbar";
 import PageLoader from "../components/PageLoader";
+import CalEventsBanner from "../components/CalEventsBanner";
 import "../css/HomePage.css";
 import SidebarNav from "../components/SidebarNav";
 
@@ -210,6 +211,7 @@ export default function HomePage() {
               <p>Your hub for engaging discussions</p>
             </header>
             <PageLoader loading={isLoading}>
+              <CalEventsBanner/>
               <div className="homepage-grid">
                 {issueAreas.map((area) => (
                   <div
