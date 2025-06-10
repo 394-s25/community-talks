@@ -35,8 +35,10 @@
 <h3 align="center">Community Talks</h3>
 
   <p align="center">
-    The CommunityTalks app is an open community feedback and forum app. CommunityTalks is a one stop app for Evanston community members to find information, stay informed, and give their feedback on Evanston departments, committees, issues, and other areas of interest. The app’s homepage has a few committees page links to learn more about each committee as well as a side nav for committee navigation and a top nav for page navigation. The app has three prominent pages: home page, community forum, and the profile.
-
+    project_description
+    <div>
+      <p>The CommunityTalks app is an open community feedback and forum app. CommunityTalks is a one stop app for Evanston community members to find information, stay informed, and give their feedback on Evanston departments, committees, issues, and other areas of interest. The app’s homepage has a few committees page links to learn more about each committee as well as a side nav for committee navigation and a top nav for page navigation. The app has three prominent pages: home page, community forum, and the profile.</p>
+    </div>
     <br />
     <a href="https://github.com/394-s25/community-talks/tree/main"><strong>Explore the github repo »</strong></a>
     <br />
