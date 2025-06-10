@@ -3,8 +3,8 @@
 // this server was built to run based on firebase's HTTP function methods
 // 
 const express = require("express");
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+// const functions = require("firebase-functions");
+// const admin = require("firebase-admin");
 const axios = require("axios");
 const cheerio = require("cheerio");
 const punycode = require('punycode/');
@@ -12,19 +12,13 @@ const cors = require("cors"); //for headers
 
 
 // if running on local machine uncomment the below
-// admin.initializeApp();
-// const app = express();
-// const PORT = 5001;
-
-// app.use(cors({
-//     origin:"http://localhost:5173",
-//     methods: ['GET', 'POST', 'PUT', 'DELETE']
-// }));
+const app = express();
+const PORT = 5001;
 
 
 // if deploying to firebase uncomment the below
-admin.initializeApp();
-const app = express();
+// admin.initializeApp();
+// const app = express();
 
 const BASE_URL = `https://www.cityofevanston.org/`;
 const URL = `https://www.cityofevanston.org/about-evanston/events`;
@@ -129,11 +123,11 @@ app.get("/api/data", async (req, res) => {
     }
 });
 
-//create the http function for firebase
-exports.api = functions.https.onRequest(app);
+// //create the http function for firebase
+// exports.api = functions.https.onRequest(app);
 
 
 // // uncomment if running locally
-// app.listen(PORT, () => {
-//     console.log(`Server actively running at http://localhost:${PORT}`);
-// })
+app.listen(PORT, () => {
+    console.log(`Server actively running at http://localhost:${PORT}`);
+})

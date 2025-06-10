@@ -20,8 +20,8 @@ export default function CalEventsBanner(){
     const [currBannerDivIdx, setCurrBannerDivIdx] = useState(0);
     const [isBannerPaused, setIsBannerPaused] = useState(false);
     const localHostPath = "http://localhost:5001/api/data";
-    const firebaseHttpPath = "https://evanstoncommunitytalks.cloudfunctions.net/api/api/data"
-    const serverPath = firebaseHttpPath;
+    // const firebaseHttpPath = "https://evanstoncommunitytalks.cloudfunctions.net/api/api/data"
+    const serverPath = localHostPath;
 
     useEffect(() => {
         // only run the fetching from backend every few days
@@ -31,9 +31,9 @@ export default function CalEventsBanner(){
             fetch(serverPath)
                 .then(res => res.json())
                 .then(data => {
-                    console.log("Server Data:", data);
+                    // console.log("Server Data:", data);
                     setMonth(data[0].month);
-                    console.log("Month:", data[0].month);
+                    // console.log("Month:", data[0].month);
                     setCalServerData(data);
                     handleSetWeekData(data);
                 })
