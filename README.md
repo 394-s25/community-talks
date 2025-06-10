@@ -213,8 +213,12 @@ The app is run under the firebase project 'community-talks' with the email commu
 
 To run firebase in the app, create a file called firebase.js and put it in the client/src folder. It should contain the firebase configuration file (this information is also found in firebase project overview or realtime database). This file was sent alongside the delivered materials.
 
-The app uses information from the database to populate the home page and the committee issue pages. After pulling the code, will need to add testing dataset(this test data is in the provided JSON file):
-* Going to “/function” and push every buttons.
+The app uses information from the database to populate the home page and the committee issue pages. After pulling the code, will need to add the data with the necessary app information (this data is in the provided JSON file in the delivered documents):
+* Login to firebase
+* Navigate to Realtime Database
+* In the Data tab, click on the three dots located on the right of the middle console (the console will be blank, but have the default weblink at the header)
+* From that dropdown menu, click '**Import JSON**' and upload the JSON file under Data(JSON)
+* Then, go to “/function” and push every buttons.
 * All testing dataset will add to your firebase database
 
 
