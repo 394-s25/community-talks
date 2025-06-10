@@ -211,7 +211,7 @@ In order of easy to fix to difficult
 * The top navigation bar appears blank unless a bootStrap color class like navbar-light is applied. Links are clickable but text may be invisible without it.
 * The server works through local hosting API, the fetching from that API will only run when manually called for in client/src/components/CalEventsBanner.jsx  which is controlled by the runServer variable to fetch from the respective serverPath.
 * * To get it to work from non-local host nor a third party API, you can initialize firebase HTTP functions, but it requires a paid plan (the blaze plan) to run. Those functions will only run when manually called for in client/src/components/CalEventsBanner.jsx . which is controlled by the runServer variable to fetch from the respective serverPath
-  * The interests on the profile are not connected to anything to give it updates, but all preferences are saved to the database
+* The interests on the profile are not connected to anything to give it updates, but all preferences are saved to the database
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
