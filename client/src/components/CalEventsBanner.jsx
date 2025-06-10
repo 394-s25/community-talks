@@ -10,7 +10,7 @@ import "../css/calendar.css";
 
 export default function CalEventsBanner(){
     const [calServerData, setCalServerData] = useState([]);
-    const [runServer, setRunServer] = useState(true);
+    const [runServer, setRunServer] = useState(false);
     const [weekData, setWeekData] = useState([]);
     const today = new Date();
     const months = ["January", "February", "March",  "April", "May", "June", "July", "August", "September", "October", "November", "December"];
