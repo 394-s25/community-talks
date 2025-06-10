@@ -21,7 +21,6 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![project_license][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
@@ -265,18 +264,16 @@ App Link: [https://evanstoncommunitytalks.web.app/home](https://evanstoncommunit
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
-[forks-url]: https://github.com/github_username/repo_name/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
-[stars-url]: https://github.com/github_username/repo_name/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
-[issues-url]: https://github.com/github_username/repo_name/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
+[contributors-shield]: https://img.shields.io/github/contributors/394-s25/community-talks.svg?style=for-the-badge
+[contributors-url]: https://github.com/394-s25/community-talks/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/394-s25/community-talks.svg?style=for-the-badge
+[forks-url]: https://github.com/394-s25/community-talks/network/members
+[stars-shield]: https://img.shields.io/github/stars/394-s25/community-talks.svg?style=for-the-badge
+[stars-url]: https://github.com/394-s25/community-talks/stargazers
+[issues-shield]: https://img.shields.io/github/issues/394-s25/community-talks.svg?style=for-the-badge
+[issues-url]: https://github.com/394-s25/community-talks/issues
+[license-shield]: https://img.shields.io/github/license/394-s25/community-talks.svg?style=for-the-badge
+[license-url]: https://github.com/394-s25/community-talks/blob/master/LICENSE.txt
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
