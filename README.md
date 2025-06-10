@@ -72,7 +72,7 @@
     </li>
     <li><a href="#app-setup">App Setup</a></li>
     <li><a href="#firebase-setup">Firebase Setup</a></li>
-    <li><a href="#third-party">Third Party Connections</a></li>
+    <li><a href="#third-party-connections">Third Party Connections</a></li>
     <li><a href="#bugs">Bugs</a></li>
     <li><a href="#top-contributors">Contributing Developers</a></li>
     <li><a href="#links">Links</a></li>
@@ -252,6 +252,7 @@ In order of easy to fix to difficult
 ## Links
 
 Project Link: [https://github.com/394-s25/community-talks/tree/main](https://github.com/394-s25/community-talks/tree/main)
+<br/>
 App Link: [https://evanstoncommunitytalks.web.app/home](https://evanstoncommunitytalks.web.app/home)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
