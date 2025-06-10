@@ -70,7 +70,7 @@
       </ul>
     </li>
     <li><a href="#setup">App Setup</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#roadmap">The Backend Server</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -179,21 +179,44 @@ Home page:
 * We setting some pages to make sure it has detail information from gov webpage.
 * The first 2 kinds of communities are our designed pages and manually add data.   
 * Since the government's website cannot be downloaded through scripts, we directly connect to the remaining content using external links. We found a way to bypass it by creating a server API, but we only pulled the calendar information. It should be possible to use the server to get the desired information off of the specific committee sites
-
+  
+CalEventsBanner:
+* The banner which shows the events of the week, pulled from the cityofevanston/calendar page. The runServer variable is default set to false, when it is set to *true* on the next page reload it will call the backend server and update the database information.
+* To update the information, do the following steps:
+1.  Navigate to the root of the project and run the following commands:
+   ```sh
+   cd ..
+   npm install concurrently
+   ```
+3. Navigate to server folder and run the following commands:
+   ```sh
+   npm init -y
+   npm install express cors
+   node index.js
+   ```
+5. Navigate back to the root of the project and run the following commands:
+   ```sh
+   cd ..
+   npm start
+   ```
+7. In the terminal, the link to the local host site should appear. Open it and it will run the CalEventsBanner, which is on the homepage
+8. *Note:* If there are changes to the backend (server/index.js) then you will need to run node index.js in the server folder, before running npm run build in the client folder
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
 <!-- How to set up Firebase: where to create an account, where to put configuration data, how to import starting data into the database -->
+
 ## Firebase Setup
 The app is run under the firebase project <<community-talks>> with the email communitytalksapp@gmail.com (the email is sent separately for security)
 
-To run firebase in the app, create a file client/src/firebase.js file and put it in the client/src folder. It should contain the firebase configuration file (this information is also found in firebase project overview or realtime database). This file was sent alongside the delivered materials.
+To run firebase in the app, create a file called firebase.js and put it in the client/src folder. It should contain the firebase configuration file (this information is also found in firebase project overview or realtime database). This file was sent alongside the delivered materials.
 
 The app uses information from the database to populate the home page and the committee issue pages. After pulling the code, will need to add testing dataset(this test data is in the provided JSON file):
 * Going to “/function” and push every buttons.
 * All testing dataset will add to your firebase database
+
 
 ### Third-Party Connections
 The app uses icons from Font Awesome at this Fontawesome kit: https://kit.fontawesome.com/9b807e0756.js 
@@ -217,25 +240,20 @@ In order of easy to fix to difficult
 
 ### Top contributors:
 
+<p><a href="https://github.com/Minxin-Shi">Minxin Shi</a></p>
+
+<p><a href="https://github.com/zoryah-gray">Zoryah Gray</a></p>
+<p><a href="https://github.com/Shuyang-Yu-808">Shuyang Yu</a></p>
+<p><a href="https://github.com/pan1018">Yuyang Pan</a></p>
+
 <a href="https://github.com/github_username/repo_name/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
 </a>
 
 
 
-<!-- LICENSE -->
-## License
-
-Distributed under the project_license. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+## Project Link
 
 Project Link: [https://github.com/394-s25/community-talks/tree/main](https://github.com/394-s25/community-talks/tree/main)
 
