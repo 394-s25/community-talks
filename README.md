@@ -66,15 +66,16 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#installating-the-app">Installation</a></li>
+        <li><a href="#running-the-app">Running the app</a></li>
       </ul>
     </li>
-    <li><a href="#setup">App Setup</a></li>
-    <li><a href="#roadmap">The Backend Server</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#app-setup">App Setup</a></li>
+    <li><a href="#firebase-setup">Firebase Setup</a></li>
+    <li><a href="#third-party">Third Party Connections</a></li>
+    <li><a href="#bugs">Bugs</a></li>
+    <li><a href="#top-contributors">Contributing Developers</a></li>
+    <li><a href="#links">Links</a></li>
   </ol>
 </details>
 
@@ -200,7 +201,7 @@ CalEventsBanner:
    npm start
    ```
 7. In the terminal, the link to the local host site should appear. Open it and it will run the CalEventsBanner, which is on the homepage
-8. *Note:* If there are changes to the backend (server/index.js) then you will need to run node index.js in the server folder, before running npm run build in the client folder
+8. _*Note:*_ If there are changes to the backend (server/index.js) then you will need to run node index.js in the server folder, before running npm run build in the client folder
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -209,7 +210,7 @@ CalEventsBanner:
 <!-- How to set up Firebase: where to create an account, where to put configuration data, how to import starting data into the database -->
 
 ## Firebase Setup
-The app is run under the firebase project <<community-talks>> with the email communitytalksapp@gmail.com (the email is sent separately for security)
+The app is run under the firebase project 'community-talks' with the email communitytalksapp@gmail.com (the email is sent separately for security)
 
 To run firebase in the app, create a file called firebase.js and put it in the client/src folder. It should contain the firebase configuration file (this information is also found in firebase project overview or realtime database). This file was sent alongside the delivered materials.
 
@@ -220,6 +221,8 @@ The app uses information from the database to populate the home page and the com
 
 ### Third-Party Connections
 The app uses icons from Font Awesome at this Fontawesome kit: https://kit.fontawesome.com/9b807e0756.js 
+
+The app also uses cheerio and axios in the server for fetching and parsing HTML data (from the cityofevanston page). All in compliance to the cityofevanstons web scraping policies.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -241,32 +244,19 @@ In order of easy to fix to difficult
 ### Top contributors:
 
 <p><a href="https://github.com/Minxin-Shi">Minxin Shi</a></p>
-
 <p><a href="https://github.com/zoryah-gray">Zoryah Gray</a></p>
 <p><a href="https://github.com/Shuyang-Yu-808">Shuyang Yu</a></p>
 <p><a href="https://github.com/pan1018">Yuyang Pan</a></p>
 
-<a href="https://github.com/github_username/repo_name/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
-</a>
-
-
-
 <!-- CONTACT -->
-## Project Link
+## Links
 
 Project Link: [https://github.com/394-s25/community-talks/tree/main](https://github.com/394-s25/community-talks/tree/main)
+App Link: [https://evanstoncommunitytalks.web.app/home](https://evanstoncommunitytalks.web.app/home)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
