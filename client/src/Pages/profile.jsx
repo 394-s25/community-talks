@@ -240,9 +240,6 @@ export default function ProfilePage() {
       <div className="profile-container" style={{paddingTop: "2.5rem"}}>
         {/* <NavBar /> */}
         <div className="profile-header">
-          {/* <button className="back-button" onClick={() => navigate("/")} style={{display:"flex",left:0}}>
-            ← Back to Home
-          </button> */}
           <h1>Profile</h1>
         </div>
 

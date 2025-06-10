@@ -26,7 +26,6 @@ export default function ForumPostPage(){
     const parentPost = location.state?.post;
     const parentPage = location.state?.onPage;
     const dbBaseRef = useMemo(() => ref(db, "forum_posts/comments"), [db]);
-    // const dbBaseRef = ref(db, "forum_posts/comments");
 
 
     // inital load
@@ -48,7 +47,6 @@ export default function ForumPostPage(){
 
 
     const addComment = async (parentCommentUid=null, author, contentInfo) => {
-        // console.log(parentCommentUid, author, contentInfo);
         let username = auth.currentUser.email;
         try {
             const snap = await get(ref(db, 'users/' + author));
@@ -70,7 +68,6 @@ export default function ForumPostPage(){
             timestamp: Date.now(),
         }
         const commentRef = push(ref(db, "forum_posts/comments"), data);
-        // console.log("Added comment", commentRef.key,"to parentComment", parentCommentUid);
     }
 
     const loadAllComments = () => {
@@ -81,7 +78,6 @@ export default function ForumPostPage(){
                 snap.forEach((child) => {
                     comments.push({id:child.key, ...child.val()});
                 });
-                // console.log("All comments:", comments);
                 setCommentData(comments);
                 setCommentTree(buildCommentTree(comments));
             } else {
@@ -103,11 +99,9 @@ export default function ForumPostPage(){
             map[comment.id] = {...comment, children: []};
         });
 
-        // console.log("**building tree:", map);
 
         // build the tree
         Array.from(data).forEach((comment) => {
-            // console.log("---looking at comment:", comment);
             if (comment.parentCommentId){
                 map[comment.parentCommentId].children.push(map[comment.id]);
             } else { //this is a top level comment
@@ -115,7 +109,6 @@ export default function ForumPostPage(){
             }
         });
 
-        // console.log("**building tree:Finished:", roots);
 
         return roots;
     }
@@ -129,7 +122,6 @@ export default function ForumPostPage(){
 
         // open add comment component
         setAddCommentOpen(isAddCommentOpen ? false : true);
-        // isAddCommentOpen ? setAddCommentOpen(false) : setAddCommentOpen(true);
     }
 
     const onBannerClose = () => {

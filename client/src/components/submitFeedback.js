@@ -19,8 +19,4 @@ export const submitFeedback = (department, feedbackText) => {
     .catch((err) => {
       console.error("❌ Failed to submit feedback:", err);
     });
-    // return new Promise((resolve) => {
-    //     console.log(`✅ (mock) Feedback submitted to ${department}: ${feedbackText}`);
-    //     setTimeout(resolve, 500); //
-    //   });
 };

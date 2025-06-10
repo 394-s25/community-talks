@@ -89,20 +89,6 @@ export default function IssuePage() {
 
         </div>
 
-
-        {/* {detailData?.members && (
-          <div className="section-box">
-            <h2>👫 Members</h2>
-            <ul>
-              {detailData.members.map((m, i) => (
-                <li key={i}>
-                  <strong>{m.name}</strong>
-                  {m.role ? ` – ${m.role}` : ""} {m.term ? `(${m.term})` : ""}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )} */}
         {detailData?.members && (
           <div className="section-box">
             <h2>👫 Members</h2>
@@ -347,62 +333,6 @@ export default function IssuePage() {
               )}
           </div>
         )}
-
-
-
-
-        {/* {detailData?.virtualMeeting && (
-  <div className="section-box">
-    <h2>🖥️ Virtual Meeting Access</h2>
-
-    {detailData.virtualMeeting.publicComment && (
-      <div className="virtual-subsection">
-        <h3>📝 Public Comment</h3>
-        <ul>
-          <li>
-            <strong>How to Comment:</strong>{" "}
-            {detailData.virtualMeeting.publicComment.methods?.join(", ")}
-          </li>
-          <li>
-            <strong>Sign-Up Form:</strong>{" "}
-            <a
-              href={detailData.virtualMeeting.publicComment.signUpForm}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Submit via Form
-            </a>
-          </li>
-          <li>
-            <strong>Contact:</strong> {detailData.virtualMeeting.publicComment.contact}
-          </li>
-        </ul>
-      </div>
-    )}
-
-    {Array.isArray(detailData.virtualMeeting.watchOptions) &&
-      detailData.virtualMeeting.watchOptions.length > 0 && (
-        <div className="virtual-subsection">
-          <h3>📺 How to Watch</h3>
-          <ul>
-            {detailData.virtualMeeting.watchOptions.map((opt, idx) => (
-              <li key={idx}>
-                <strong>{opt.platform}</strong> ({opt.type})<br />
-                {opt.url && (
-                  <a href={opt.url} target="_blank" rel="noopener noreferrer">
-                    {opt.url}
-                  </a>
-                )}
-                {opt.channel && <div>Channel: {opt.channel}</div>}
-                {opt.instructions && <div><em>{opt.instructions}</em></div>}
-              </li>
-            ))}
-          </ul>
-        </div>
-    )}
-  </div>
-)} */}
-
 
 
         {detailData?.meetings && detailData.meetings.length > 0 && (

@@ -179,9 +179,6 @@ export default function HomePage() {
 
   return (
 
-    // <div>
-      
-
       <div className="homepage-container">
         <NavBar />
         <div className="homepage-layout">
@@ -205,7 +202,6 @@ export default function HomePage() {
 
 
           <main className="homepage-main">
-            {/* <NavBar /> */}
             <header className="homepage-header">
               <h1>Welcome to Community Talks</h1>
               <p>Your hub for engaging discussions</p>
@@ -244,9 +240,6 @@ export default function HomePage() {
           </main>
         </div>
       </div>
-    
-    // </div>
-
 
   );
 }

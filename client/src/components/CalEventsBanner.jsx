@@ -31,9 +31,7 @@ export default function CalEventsBanner(){
             fetch(serverPath)
                 .then(res => res.json())
                 .then(data => {
-                    // console.log("Server Data:", data);
                     setMonth(data[0].month);
-                    // console.log("Month:", data[0].month);
                     setCalServerData(data);
                     handleSetWeekData(data);
                 })
@@ -42,14 +40,6 @@ export default function CalEventsBanner(){
             getCalWeekDbData();
         }
 
-        // // start banner carousel
-        // const timer = setInterval(() => {
-        //     console.log(weekData.length);
-        //     setCurrBannerDivIdx((prev) => (prev + 1) % weekData.length);
-        //     console.log(currBannerDivIdx);
-        // }, 5000);
-        // return () => clearInterval(timer);
-        //bannerCarousel();
     },[]);
 
     useEffect(() => {
@@ -60,7 +50,6 @@ export default function CalEventsBanner(){
         // start banner carousel
         if (!weekData || weekData.length === 0 || isBannerPaused) return;
         const timer = setInterval(() => {
-            console.log(weekData.length);
             setCurrBannerDivIdx((prev) => (prev + 1) % weekData.length);
         }, 4000);
 
@@ -131,7 +120,6 @@ export default function CalEventsBanner(){
         const currDayOfWeek = weekdays[dayOfWeek];
         const currDayIdx = dayOfWeek - 1 === -1 ? 6 : dayOfWeek - 1;
         
-        // console.log("Today:", weekdays[dayOfWeek]);
 
         // [day of week] [month] [weekday]
         currWeek[currDayIdx][currDayOfWeek].date = currDayOfWeek + ", " + month + " " + date.getDate();
@@ -160,7 +148,6 @@ export default function CalEventsBanner(){
             }
         }
 
-        console.log(currWeek);
 
         // setWeekData with the new dict obj
         setWeekData(currWeek);
@@ -168,7 +155,6 @@ export default function CalEventsBanner(){
     }
 
     const updateCalDatabase = async (calData) => {
-        console.log("in update:",calData);
         /* db structure
         Calendar
             Monday
@@ -257,26 +243,23 @@ export default function CalEventsBanner(){
         try {
             for (let i = 0; i < currWeek.length; i++){
                 const key = Object.keys(currWeek[i])[0];
-                console.log(key,currWeek[i][key]);
-                
                 const dbRefPath = 'calendar/' + key.trim();
                 const snap = await get(ref(db, dbRefPath));
                 if (snap.exists()){
                     const data = snap.val();
-                    console.log("Db data:",data);
                     currWeek[i][key].date = data.date;
                     currWeek[i][key].dateText = data.dateText;
-                    const eventsKeys = Object.keys(data.events);
-                    // get event data
-                    for (let j = 0; j < eventsKeys.length; j++){
-                        // console.log(eventsKeys[j],":",data.events[eventsKeys[j]]);
-                        currWeek[i][key].events.push(data.events[eventsKeys[j]]);
+                    if (data.events){
+                        const eventsKeys = Object.keys(data.events);
+                        // get event data
+                        for (let j = 0; j < eventsKeys.length; j++){
+                            currWeek[i][key].events.push(data.events[eventsKeys[j]]);
+                        }
                     }
                 } else  {
-                    console.log("No data at", dbRefPath);
+                    console.warn("No data at", dbRefPath);
                 }
             }
-            console.log(currWeek);
             setWeekData(currWeek);
     
            } catch (err) {
@@ -299,7 +282,6 @@ export default function CalEventsBanner(){
         if (idx > 6) newIdx = 0;
         else if (idx < 0) newIdx = 6;
         
-        console.log("moving to slide", idx);
 
         setCurrBannerDivIdx(newIdx);
         goToBannerSlide(newIdx);
@@ -338,7 +320,6 @@ export default function CalEventsBanner(){
             </div>
             <div className="banner-controls" style={{width:"100%"}}>
                 <div className="left banner-nav-button" onClick={() =>  toggleCurrBanner(currBannerDivIdx - 1)}>&#10094;</div>
-                {/* <div className="right banner-nav-button" onClick={() =>  toggleCurrBanner(currBannerDivIdx + 1)}>&#10095;</div> */}
                 {range(7).map((i) => (
                     <span key={i} className={i === currBannerDivIdx ? 'banner-circle-nav active'  : 'banner-circle-nav transparent'} onClick={() => toggleCurrBanner(i)}></span>
                 ))}

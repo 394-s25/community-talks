@@ -5,10 +5,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 export default function SearchBar({data, onSearch, isForum}){
 
     const filterData = (query) => {
-        // console.log("search data:", data);
-        // console.log("search query:", query);
         if (query.length === 0){
-            // console.log("empty search, return original data...", data);
             onSearch(data);
             return;
         }

@@ -23,7 +23,6 @@ export default function ForumPostModal({isPost, addPost, isOpen, onClose}){
 
     const handleSelectTags = (selected) => {
         const chosen = selected ? selected.map((tag) => tag.value) : [];
-        console.log(chosen);
         setTags(chosen);
     };
 
@@ -70,16 +69,6 @@ export default function ForumPostModal({isPost, addPost, isOpen, onClose}){
                         onChange={(e) => setMessage(e.target.value)}
                         required
                     />
-
-                    
-                    {/* <select id="tags" multiple value={tags} onChange={handleSelectTags}>
-                        <option>General</option>
-                        <option>Resources</option>
-                        <option>Safety</option>
-                        <option>Committee</option>
-                        <option>Grants</option>
-                        <option>Get Involved</option>
-                    </select> */}
 
                     <button type="submit">{isPost ? "Post" : "Comment"}</button>
                 </form>

@@ -34,14 +34,9 @@ export default function ForumPage(){
     const lastPostIdx = currPage * postsPerPage; // idx of the last post within curr page
     const firstPostIdx = lastPostIdx - postsPerPage; // idx of the first post within curr page
 
-    // for temp data; for real data, will pull per page according to index
-    // const currPosts = tempDataPosts.slice(firstPostIdx, lastPostIdx);
-    // const currPosts = tempDataPosts;
-
 
     const addPost = async ({titleInfo, contentInfo, user=null, tagsArray}) => {
         // tags is a list
-        // console.log(titleInfo, contentInfo, user,tagsArray )
         let username = auth.currentUser.email;
         try {
             const snap = await get(ref(db, 'users/' + auth.currentUser.uid));
@@ -63,16 +58,9 @@ export default function ForumPage(){
             timestamp: Date.now(),
         }
 
-        console.log(data);
 
         // push this post
-        // console.log(data);
         const postRef = push(ref(db, `${forumDbBaseRef}/posts`), data);
-        // for each tag push this postRef (keeping track of all the posts under a common tag)
-        // tagsArray.forEach((tag) => {
-        //     push(ref(db, `${forumDbBaseRef}/${tag}`), postRef.key);
-        // });
-        // console.log("finished pushing:", postRef.key);
     }
 
     
@@ -90,7 +78,6 @@ export default function ForumPage(){
                     .map(([key, val]) => ({id:key, ...val}))
                     .sort((a,b) => b.timestamp - a.timestamp);
 
-                // console.log("All post results:",results);
                 setAllPosts(results); 
                 setCurrPosts(results.slice(firstPostIdx, lastPostIdx));
                 setPrevPostTimestamp(results[results.length - 1]?.timestamp);
@@ -109,10 +96,8 @@ export default function ForumPage(){
 
     const fetchPage = () => {
         if (currentFilteredPosts.length > 0){
-            // console.log("displaying posts (filtered):", currentFilteredPosts.slice(firstPostIdx, lastPostIdx));
             setCurrPosts(currentFilteredPosts.slice(firstPostIdx, lastPostIdx));
         } else {
-            // console.log("displaying posts:", allPosts.slice(firstPostIdx, lastPostIdx));
             setCurrPosts(allPosts.slice(firstPostIdx, lastPostIdx));
         }
     };
@@ -135,7 +120,6 @@ export default function ForumPage(){
                     .map(([key, val]) => ({id:key, ...val}))
                     .sort((a,b) => b.timestamp - a.timestamp);
 
-                // console.log(results);
                 setCurrPosts(results);
                 setPrevPostTimestamp(results[results.length - 1]?.timestamp);
             } else {
@@ -153,14 +137,11 @@ export default function ForumPage(){
     }
 
     const filterPosts = (filteredData) => {
-        // console.log("this pages filtered posts:", filteredData)
-        // setCurrPosts(filteredData);
         setCurrentFilteredPosts(filteredData);
     }
 
     const makePost = () => {
         // if user is logged in, they can make a post
-        // console.log("current user:",auth.currentUser);
         if (auth.currentUser === null) {
             setBannerMessage("You must be logged in to make a post!");
             setShowTopBanner(true);
@@ -195,9 +176,6 @@ export default function ForumPage(){
             <NavBar currentPage='/forum'/>
             <div className='homepage-container'>
                 <header className="homepage-header" style={{paddingTop: "2.5rem"}}>
-                    {/* <button className="back-button" onClick={() => navigate("/")} style={{display:"flex",left:0}}>
-                        ← Back to Home
-                    </button> */}
                     <h1>Community Forum</h1>
                     <p>Your hub for engaging discussions</p>
                 </header>
