@@ -90,7 +90,7 @@ Here's a blank template to get started. To avoid retyping too much info, do a se
 ### Built With
 
 * [![React][React.js]][React-url]
-* [![Javascript][Vue.js]][Javascript-url]
+* [![Javascript][Javascript.js]]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 * [![FontAwesome][Fontawesome.com]][FontAwesome-url]
 
@@ -282,3 +282,5 @@ Project Link: [https://github.com/394-s25/community-talks/tree/main](https://git
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
+[Javascript.js]: https://img.shields.io/badge/logo-javascript-blue?logo=javascript
+[FontAwesome-url]: https://fontawesome.com/
