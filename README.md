@@ -1,11 +1,9 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a id="readme-top"></a>
-<!--
+<!-- This template was taken from the Best-README-Template
 *** Thanks for checking out the Best-README-Template. If you have a suggestion
 *** that would make this better, please fork the repo and create a pull request
 *** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
 -->
 
 
@@ -30,23 +28,22 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/394-s25/community-talks/tree/main">
+    <img src="client/public/logoicon.svg" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">project_title</h3>
+<h3 align="center">Community Talks</h3>
 
   <p align="center">
     project_description
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/394-s25/community-talks/tree/main"><strong>Explore the github repo »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://evanstoncommunitytalks.web.app/home">View Website</a>
     &middot;
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/github_username/repo_name/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/394-s25/community-talks/tree/main/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
   </p>
 </div>
 
@@ -69,7 +66,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#setup">App Setup</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -83,7 +80,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 Here's a blank template to get started. To avoid retyping too much info, do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`, `project_license`
 
@@ -93,14 +89,10 @@ Here's a blank template to get started. To avoid retyping too much info, do a se
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
 * [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
+* [![Javascript][Vue.js]][Javascript-url]
 * [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
+* [![FontAwesome][Fontawesome.com]][FontAwesome-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -112,77 +104,111 @@ Here's a blank template to get started. To avoid retyping too much info, do a se
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
-### Prerequisites
+### Prerequisites/Dependencies
 
 This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
   ```
+For frontend (client folder)
+* npm
+  ```sh
+  npm install firebase
+  npm install --save @fortawesome/fontawesome-svg-core
+  npm install --save @fortawesome/react-fontawesome
+  npm install --save @fortawesome/free-solid-svg-icons
+  npm install --save @fortawesome/free-regular-svg-icons
+  npm install --save @fortawesome/free-brand-svg-icons
+  npm install react-select
+  npm install react-bootstrap bootstrap
+  npm i bootstrap@5.3.6
+  npm install
+  ```
 
-### Installation
+For backend (server folder)
+* npm
+  ```sh
+  npm install express cors axios
+  ```
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+
+### Installating the app
+
+1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/394-s25/community-talks/tree/main
    ```
-3. Install NPM packages
+3. Install NPM packages in both the root, client, and server folders
    ```sh
    npm install
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-5. Change git remote url to avoid accidental pushes to base project
+4. Change git remote url to avoid accidental pushes to base project
    ```sh
    git remote set-url origin github_username/repo_name
    git remote -v # confirm the changes
    ```
+5. Set up firebase congig in the client/src location. (See 'How to setup Firebase' below for more details)
+
+### Running the app
+To Run the app locally
+1. navigate to the client folder and run the following commands
+  ```sh
+  cd client
+  npm run build
+  npm run start
+```
+2. *To deploy the app to the webpage run the following command in the root of the client folder:
+   ```sh
+   firebase deploy
+   ```
+3. To run the app concurrently with the server on a local machine, navigate to the root of the project, and then run: npm start
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
+<!-- How the app is setup  -->
+## App Setup
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Home page:
+* We setting some pages to make sure it has detail information from gov webpage.
+* The first 2 kinds of communities are our designed pages and manually add data.   
+* Since the government's website cannot be downloaded through scripts, we directly connect to the remaining content using external links. We found a way to bypass it by creating a server API, but we only pulled the calendar information. It should be possible to use the server to get the desired information off of the specific committee sites
 
-_For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- ROADMAP -->
-## Roadmap
+<!-- How to set up Firebase: where to create an account, where to put configuration data, how to import starting data into the database -->
+## Firebase Setup
+The app is run under the firebase project <<community-talks>> with the email communitytalksapp@gmail.com (the email is sent separately for security)
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+To run firebase in the app, create a file client/src/firebase.js file and put it in the client/src folder. It should contain the firebase configuration file (this information is also found in firebase project overview or realtime database). This file was sent alongside the delivered materials.
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+The app uses information from the database to populate the home page and the committee issue pages. After pulling the code, will need to add testing dataset(this test data is in the provided JSON file):
+* Going to “/function” and push every buttons.
+* All testing dataset will add to your firebase database
+
+### Third-Party Connections
+The app uses icons from Font Awesome at this Fontawesome kit: https://kit.fontawesome.com/9b807e0756.js 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- CONTRIBUTING -->
-## Contributing
+<!-- Known Bugs -->
+## Bugs
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+In order of easy to fix to difficult
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+* The search bar is buggy and wont allow searching, but *when it works* should allow searching by tag and title
+* The top navigation bar appears blank unless a bootStrap color class like navbar-light is applied. Links are clickable but text may be invisible without it.
+* The server works through local hosting API, the fetching from that API will only run when manually called for in client/src/components/CalEventsBanner.jsx  which is controlled by the runServer variable to fetch from the respective serverPath.
+* * To get it to work from non-local host nor a third party API, you can initialize firebase HTTP functions, but it requires a paid plan (the blaze plan) to run. Those functions will only run when manually called for in client/src/components/CalEventsBanner.jsx . which is controlled by the runServer variable to fetch from the respective serverPath
+  * The interests on the profile are not connected to anything to give it updates, but all preferences are saved to the database
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -208,7 +234,7 @@ Distributed under the project_license. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/394-s25/community-talks/tree/main](https://github.com/394-s25/community-talks/tree/main)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
