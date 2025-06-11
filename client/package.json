@@ -20,7 +20,7 @@
     "bootstrap": "^5.3.6",
     "cheerio": "^1.0.0",
     "date-fns": "^4.1.0",
-    "firebase": "^11.7.3",
+    "firebase": "^11.9.1",
     "puppeteer": "^24.9.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.10",
